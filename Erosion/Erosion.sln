@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1703.8
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErosionPlugin", "ErosionPlugin\ErosionPlugin.csproj", "{A523FB2E-DBBA-41D2-99B3-62788E9612DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErosionPlugin.Tests", "ErosionPlugin.Test\ErosionPlugin.Tests.csproj", "{88070F3A-234B-4738-9B5A-7E1D5C6860FF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A523FB2E-DBBA-41D2-99B3-62788E9612DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A523FB2E-DBBA-41D2-99B3-62788E9612DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A523FB2E-DBBA-41D2-99B3-62788E9612DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A523FB2E-DBBA-41D2-99B3-62788E9612DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A523FB2E-DBBA-41D2-99B3-62788E9612DA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A523FB2E-DBBA-41D2-99B3-62788E9612DA}.Debug|x86.Build.0 = Debug|Any CPU
+		{A523FB2E-DBBA-41D2-99B3-62788E9612DA}.Release|x86.ActiveCfg = Release|Any CPU
+		{A523FB2E-DBBA-41D2-99B3-62788E9612DA}.Release|x86.Build.0 = Release|Any CPU
+		{88070F3A-234B-4738-9B5A-7E1D5C6860FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88070F3A-234B-4738-9B5A-7E1D5C6860FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88070F3A-234B-4738-9B5A-7E1D5C6860FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88070F3A-234B-4738-9B5A-7E1D5C6860FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88070F3A-234B-4738-9B5A-7E1D5C6860FF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{88070F3A-234B-4738-9B5A-7E1D5C6860FF}.Debug|x86.Build.0 = Debug|Any CPU
+		{88070F3A-234B-4738-9B5A-7E1D5C6860FF}.Release|x86.ActiveCfg = Release|Any CPU
+		{88070F3A-234B-4738-9B5A-7E1D5C6860FF}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DCEC1BC5-40FF-4854-AF4E-E67507385BD6}
+	EndGlobalSection
+EndGlobal

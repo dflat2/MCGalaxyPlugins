@@ -8,11 +8,12 @@ using MCGalaxy.Drawing.Ops;
 using MCGalaxy.Maths;
 using BlockID = System.UInt16;
 
-public class ErodeDrawOp : DrawOp
+// TODO: Refactor Erode2DDrawOp and ErodeDrawOp into a single class
+public class Erode2DDrawOp : DrawOp
 {
     public BlockID ErodedBlockID;
 
-    public ErodeDrawOp()
+    public Erode2DDrawOp()
     {
         AffectedByTransform = false;
     }
@@ -24,7 +25,7 @@ public class ErodeDrawOp : DrawOp
         return SizeX * SizeY * SizeZ / 2;
     }
 
-    private bool ShouldErode(Vec3U16 uvector)
+    private bool ShouldErode(Vec3U16 uvector, Axis axis)
     {
         Vec3S32 vector = uvector.ToVec3S32();
 
@@ -34,7 +35,7 @@ public class ErodeDrawOp : DrawOp
         bool isBlockID = (Level.FastGetBlock(uvector.X, uvector.Y, uvector.Z) == ErodedBlockID);
         if (!isBlockID) { return false; }
 
-        List<Vec3S32> neighbors = ErosionUtils.Neighbors3D(vector);
+        List<Vec3S32> neighbors = ErosionUtils.Neighbors2D(vector, axis);
 
         BlockID neighborBlockID;
         Vec3U16 uneighbor;
@@ -56,13 +57,14 @@ public class ErodeDrawOp : DrawOp
         Vec3U16 uMark1 = Clamp(Min);
         Vec3U16 uMark2 = Clamp(Max);
         Vec3U16 current;
+        Axis axis = ErosionUtils.NormalAxis(Min, Max);
 
         for (ushort x = uMark1.X; x <= uMark2.X; x++)
             for (ushort y = uMark1.Y; y <= uMark2.Y; y++)
                 for (ushort z = uMark1.Z; z <= uMark2.Z; z++)
                 {
                     current = new Vec3U16(x, y, z);
-                    if (ShouldErode(current)) { erosionList.Add(current); }
+                    if (ShouldErode(current, axis)) { erosionList.Add(current); }
                 }
 
         foreach (Vec3U16 vector in erosionList)

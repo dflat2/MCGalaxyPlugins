@@ -1,6 +1,5 @@
 ﻿namespace PluginErosion;
 
-using System;
 using System.Collections.Generic;
 using MCGalaxy;
 using MCGalaxy.Drawing.Brushes;
@@ -11,10 +10,12 @@ using BlockID = System.UInt16;
 public class ErodeDrawOp : DrawOp
 {
     public BlockID ErodedBlockID;
+    private ErodeMode mode;
 
-    public ErodeDrawOp()
+    public ErodeDrawOp(ErodeMode mode)
     {
         AffectedByTransform = false;
+        this.mode = mode;
     }
 
     public override string Name { get { return "erode"; } }
@@ -34,7 +35,26 @@ public class ErodeDrawOp : DrawOp
         bool isBlockID = (Level.FastGetBlock(uvector.X, uvector.Y, uvector.Z) == ErodedBlockID);
         if (!isBlockID) { return false; }
 
-        List<Vec3S32> neighbors = ErosionUtils.Neighbors3D(vector);
+        List<Vec3S32> neighbors = new List<Vec3S32>();
+
+        switch (mode)
+        {
+            case ErodeMode.Normal:
+                neighbors = ErosionUtils.Neighbors3D(vector);
+                break;
+            case ErodeMode.Natural:
+                neighbors = ErosionUtils.Neighbors3DExceptBelow(vector);
+                break;
+            case ErodeMode.X_2D:
+                neighbors = ErosionUtils.Neighbors2D(vector, Axis.X);
+                break;
+            case ErodeMode.Y_2D:
+                neighbors = ErosionUtils.Neighbors2D(vector, Axis.Y);
+                break;
+            case ErodeMode.Z_2D:
+                neighbors = ErosionUtils.Neighbors2D(vector, Axis.Z);
+                break;
+        }
 
         BlockID neighborBlockID;
         Vec3U16 uneighbor;

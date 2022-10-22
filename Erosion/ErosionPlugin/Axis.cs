@@ -1,6 +1,6 @@
 ﻿namespace PluginErosion;
 
-public enum Axis
+internal enum Axis
 {
     X,
     Y,

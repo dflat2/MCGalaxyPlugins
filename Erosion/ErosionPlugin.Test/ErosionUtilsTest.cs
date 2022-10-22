@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using Xunit;
 using PluginErosion;
 using MCGalaxy.Maths;
-using System.Linq;
 
 public class ErosionUtilsTest
 {

@@ -1,8 +1,6 @@
 ﻿namespace PluginErosion;
-
-using MCGalaxy.Maths;
-using System;
 using System.Collections.Generic;
+using MCGalaxy.Maths;
 
 internal static class ErosionUtils
 {
@@ -21,6 +19,17 @@ internal static class ErosionUtils
         neighbors.Add(coordinates + new Vec3S32(1, 0, 0));
         neighbors.Add(coordinates + new Vec3S32(0, 1, 0));
         neighbors.Add(coordinates + new Vec3S32(0, -1, 0));
+        neighbors.Add(coordinates + new Vec3S32(0, 0, 1));
+        neighbors.Add(coordinates + new Vec3S32(0, 0, -1));
+        return neighbors;
+    }
+
+    internal static List<Vec3S32> Neighbors3DExceptBelow(Vec3S32 coordinates)
+    {
+        List<Vec3S32> neighbors = new List<Vec3S32>();
+        neighbors.Add(coordinates + new Vec3S32(-1, 0, 0));
+        neighbors.Add(coordinates + new Vec3S32(1, 0, 0));
+        neighbors.Add(coordinates + new Vec3S32(0, 1, 0));
         neighbors.Add(coordinates + new Vec3S32(0, 0, 1));
         neighbors.Add(coordinates + new Vec3S32(0, 0, -1));
         return neighbors;

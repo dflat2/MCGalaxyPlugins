@@ -2,9 +2,8 @@
 
 using System;
 using MCGalaxy;
+using MCGalaxy.Commands;
 using MCGalaxy.Commands.Building;
-using MCGalaxy.DB;
-using MCGalaxy.Drawing.Brushes;
 using MCGalaxy.Drawing.Ops;
 using MCGalaxy.Maths;
 using BlockID = System.UInt16;
@@ -19,31 +18,90 @@ public class CmdErode : DrawCmd
 
     public override void Help(Player p)
     {
-        p.Message("%T/Erode [block]");
-        p.Message("%HShrinks structures made of [block].");
-        p.Message("%HIf no block is given, erodes your held block.");
+        p.Message("%T/Erode <mode> [block]");
+        p.Message("%HReplaces each [block] with air if the ids of its six neighbors aren't also [block].");
+        p.Message("%HModes: %fnormal/natural/2d-x/2d-y/2d-z (default normal)");
+        p.Message("%H+ %fnatural %Hignores the neighbor below. Looks like gravity erosion.");
+        p.Message("%H+ %f2d-x %Hignores x-axis neighbors.");
+        p.Message("%H+ %f2d-y %Hignores y-axis neighbors.");
+        p.Message("%H+ %f2d-z %Hignores z-axis neighbors.");
     }
 
     protected override bool DoDraw(Player p, Vec3S32[] marks, object state, BlockID block)
     {
         DrawArgs dArgs = (DrawArgs)state;
-        dArgs.Block = block;
-        GetMarks(dArgs, ref marks);
-        if (marks == null) return false;
-
-        BrushFactory factory = MakeBrush(dArgs);
-        BrushArgs bArgs = new BrushArgs(p, dArgs.BrushArgs, dArgs.Block);
-        Brush brush = factory.Construct(bArgs);
-        if (brush == null) return false;
-
         ErodeDrawOp op = (ErodeDrawOp)dArgs.Op;
-        op.ErodedBlockID = block;
-        DrawOpPerformer.Do(dArgs.Op, brush, p, marks);
+
+        op.ErodedBlockID = GetBlock(p, dArgs.Message);
+        if (op.ErodedBlockID == Block.Invalid) op.ErodedBlockID = block;
+
+        DrawOpPerformer.Do(dArgs.Op, null, p, marks);
         return true;
+    }
+
+    private BlockID GetBlock(Player p, string parameters)
+    {
+        string[] parts = parameters.SplitSpaces();
+        BlockID block;
+
+        switch (parts.Length)
+        {
+            case 0:
+                return Block.Invalid;
+            case 1:
+                if (IsMode(parts[0]) || parts[0] == "")
+                {
+                    return Block.Invalid;
+                }
+                else
+                {
+                    CommandParser.GetBlock(p, parts[0], out block);
+                    return block;
+                }
+            default:
+                CommandParser.GetBlock(p, parts[1], out block);
+                return block;
+        }
+    }
+
+    private bool IsMode(string text)
+    {
+        string[] modes = { "normal", "natural", "2d-x", "2d-y", "2d-z" };
+        return (Array.IndexOf(modes, text.ToLower()) != -1);
     }
 
     protected override DrawOp GetDrawOp(DrawArgs dArgs)
     {
-        return new ErodeDrawOp();
+        string[] parts = dArgs.Message.SplitSpaces();
+
+        if (parts.Length == 0) return new ErodeDrawOp(ErodeMode.Normal);
+
+        switch (parts[0].ToLower())
+        {
+            case "natural":
+                return new ErodeDrawOp(ErodeMode.Natural);
+            case "2d-x":
+                return new ErodeDrawOp(ErodeMode.X_2D);
+            case "2d-y":
+                return new ErodeDrawOp(ErodeMode.Y_2D);
+            case "2d-z":
+                return new ErodeDrawOp(ErodeMode.Z_2D);
+            default:
+                return new ErodeDrawOp(ErodeMode.Normal);
+        }
+    }
+
+    protected override void GetBrush(DrawArgs dArgs)
+    {
+        bool messageIsEmpty = dArgs.Message.Length == 0;
+
+        if (messageIsEmpty)
+        {
+            dArgs.BrushArgs = "";
+            return;
+        }
+
+        string[] parts = dArgs.Message.SplitSpaces();
+        dArgs.BrushArgs = dArgs.Message.Splice(IsMode(parts[0]) ? 1 : 0, 0);
     }
 }

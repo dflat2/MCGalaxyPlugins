@@ -64,4 +64,9 @@ internal static class ErosionUtils
 
         return Axis.Z;
     }
+
+    internal static Vec3S32 ToVec3S32(this Vec3U16 vec)
+    {
+        return new Vec3S32((int)vec.X, (int)vec.Y, (int)vec.Z);
+    }
 }

@@ -20,8 +20,6 @@ public sealed class ErosionPlugin : Plugin
     {
         Command.Register(new CmdErode());
         Command.Register(new CmdErode2D());
-        Command.Register(new CmdDilate());
-        Command.Register(new CmdDilate2D());
         Chat.MessageGlobal("&aErosion And Dilation plugin successfuly loaded.");
     }
 
@@ -29,8 +27,6 @@ public sealed class ErosionPlugin : Plugin
     {
         Command.Unregister(Command.Find("erode"));
         Command.Unregister(Command.Find("erode2d"));
-        Command.Unregister(Command.Find("dilate"));
-        Command.Unregister(Command.Find("dilate2d"));
         Chat.MessageGlobal("&cErosion And Dilation plugin successfuly unloaded.");
     }
 }

@@ -10,12 +10,12 @@ public sealed class ErosionPlugin : Plugin
     public override void Load(bool startup)
     {
         Command.Register(new CmdErode());
-        Chat.MessageGlobal("&aErosion And Dilation plugin successfuly loaded.");
+        Chat.MessageGlobal("&aErosion plugin successfuly loaded.");
     }
 
     public override void Unload(bool shutdown)
     {
         Command.Unregister(Command.Find("erode"));
-        Chat.MessageGlobal("&cErosion And Dilation plugin successfuly unloaded.");
+        Chat.MessageGlobal("&cErosion plugin successfuly unloaded.");
     }
 }

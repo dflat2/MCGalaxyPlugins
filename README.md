@@ -8,12 +8,11 @@ This repository contains source codes for my MCGalaxy Plugins.
 
 Each plugin has its own folder. Let's say for instance that you want to install the Erosion plugin.
 
-1. From the Github directory browser, click on the Erosion folder, then Erosion.cs, then on the Raw button.
-2. Download this file into you mcgalaxy/plugins folder.
-3. If your server isn't running already, run it (CLI or GUI, doesn't matter).
-4. Once the server is loaded, type `/pcompile Erosion` in the console. If this step causes an error, please post it in the issues section of this repository so that I can investigate it.
-5. Then, run `/pload Erosion` in the console. 
-6. The plugin is now loaded. Connect to your server and run `/help erosion` to get started!
+1. In the *Plugins* section below, download `Erosion.cs` into your `mcgalaxy/plugins` folder.
+2. If your server isn't running already, run it (CLI or GUI, doesn't matter).
+3. Once the server is loaded, type `/pcompile Erosion` in the console. If this step causes an error, please post it in the issues section of this repository so that I can investigate it.
+4. Then, run `/pload Erosion` in the console. 
+5. The plugin is now loaded. Connect to your server and run `/help erosion` to get started.
 
 When restarting your server, the plugin will be loaded automatically.
 
@@ -23,7 +22,7 @@ When restarting your server, the plugin will be loaded automatically.
 
 Download link: [Erosion.cs](https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/main/Erosion/Erosion.cs)
 
-This plugin adds a new `/erode <mode> [block]` command that simulates erosion. It works by removing each `[block]` that is not surrounded by itself.
+This plugin is inspired by erosion in binary image processing. It adds a new `/erode <mode> [block]` command that simulates erosion. It works by removing each `[block]` that is not surrounded by itself.
 
 ### MarksSaver
 

@@ -1,4 +1,4 @@
-﻿namespace PluginSaveMarks;
+﻿namespace PluginMarksSaver;
 
 using System;
 using MCGalaxy;
@@ -19,8 +19,7 @@ public class CmdLoadMarks : Command
     {
         p.Message("&T/loadmarks");
         p.Message("&HMarks what's been saved with &T/savemarks");
-        p.Message("&HIt doesn't trigger block activation (e.g. doors) like &T/mark &Hwould.")
-        p.Message("&HSee also: &H/savemarks");
+        p.Message("&HSee also: &T/savemarks");
     }
 
     public override void Use(Player p, string message)
@@ -39,16 +38,11 @@ public class CmdLoadMarks : Command
             return;
         }
 
-        if (!p.HasBlockChange()) return;
-
-        BlockID block = p.GetHeldBlock();
+        Command cmdMark = Command.Find("mark");
 
         foreach (Vec3S32 mark in marks)
         {
-            if (!p.Ignores.DrawOutput)
-                p.Message("Mark placed at &b({0}, {1}, {2})", mark.x, mark.y, mark.z);
-
-            p.DoBlockchangeCallback((ushort)mark.x, (ushort)mark.y, (ushort)mark.z, block);
+            cmdMark.Use(p, mark.ToStringNoComma());
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace PluginSaveMarks;
+﻿namespace PluginMarksSaver;
 
 using System;
 using System.ComponentModel.Design;
@@ -10,7 +10,7 @@ using BlockID = System.UInt16;
 public sealed class CmdSaveMarks : Command
 {
     public override string name => "savemarks";
-    public override string shortcut => "lm";
+    public override string shortcut => "sm";
     public override string type => "building";
 
     public override bool museumUsable => false;
@@ -30,21 +30,21 @@ public sealed class CmdSaveMarks : Command
     {
         if (!ParseArguments(p, message))
         {
-            p.Message("&HUsage: &T/savemarks <count> &H where <count> is 1, 2 or 3.");
+            p.Message("&HUsage: &T/savemarks <count> &H where %T<count> %His 1, 2 or 3.");
             return;
         }
 
         bool plural = (MarksCount >= 2);
 
-        if (!plural)
-        {
-            p.Message("Place or break a block.");
-            p.MakeSelection(MarksCount, "Selecting a block for &S/savemarks", null, DoSaveMarks);
-        }
-        else
+        if (plural)
         {
             p.Message($"Place or break {MarksCount} blocks to determine the edges.");
             p.MakeSelection(MarksCount, $"Selecting {MarksCount} blocks for &S/savemarks", null, DoSaveMarks);
+        }
+        else
+        {
+            p.Message("Place or break a block.");
+            p.MakeSelection(MarksCount, "Selecting a block for &S/savemarks", null, DoSaveMarks);
         }
     }
 
@@ -52,7 +52,7 @@ public sealed class CmdSaveMarks : Command
     {
         string[] parts = arguments.SplitSpaces();
 
-        if (parts.Length == 0)
+        if (parts.Length == 0 || arguments == "")
         {
             MarksCount = 2;
             return true;

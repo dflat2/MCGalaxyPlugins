@@ -1,4 +1,4 @@
-﻿namespace PluginSaveMarks;
+﻿namespace PluginMarksSaver;
 
 using System.Collections.Generic;
 using MCGalaxy;
@@ -20,7 +20,7 @@ public static class SavedMarks
         if (!table.ContainsKey(p))
             OnPlayerDisconnectEvent.Register(SavedMarks.OnPlayerDisconnect, Priority.Normal);
 
-        table.Add(p, marks);
+        table[p] = marks;
     }
 
     public static void OnPlayerDisconnect(Player p, string reason)

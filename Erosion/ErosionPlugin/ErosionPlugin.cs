@@ -18,4 +18,10 @@ public sealed class ErosionPlugin : Plugin
         Command.Unregister(Command.Find("erode"));
         Chat.MessageGlobal("&cErosion plugin successfuly unloaded.");
     }
+
+    public override void Help(Player p)
+    {
+        Command cmdHelp = Command.Find("help");
+        cmdHelp.Use(p, "erode");
+    }
 }

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 25.0.1703.8
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaveMarks", "SaveMarks\SaveMarks.csproj", "{9BCB7BBF-F55E-4CC9-B72E-CCC8C374CB76}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarksSaverPlugin", "MarksSaverPlugin\MarksSaverPlugin.csproj", "{24AD1D56-E670-4423-9887-7B30CAE0C619}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9BCB7BBF-F55E-4CC9-B72E-CCC8C374CB76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9BCB7BBF-F55E-4CC9-B72E-CCC8C374CB76}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9BCB7BBF-F55E-4CC9-B72E-CCC8C374CB76}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9BCB7BBF-F55E-4CC9-B72E-CCC8C374CB76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24AD1D56-E670-4423-9887-7B30CAE0C619}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24AD1D56-E670-4423-9887-7B30CAE0C619}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24AD1D56-E670-4423-9887-7B30CAE0C619}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24AD1D56-E670-4423-9887-7B30CAE0C619}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {18F7FBEB-3D99-481A-A789-43A2C2760DDB}
+		SolutionGuid = {5B222D33-0876-4D27-9586-54275CFB8CF8}
 	EndGlobalSection
 EndGlobal

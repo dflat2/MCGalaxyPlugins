@@ -46,7 +46,10 @@ def process_line(current_line, usings, lines):
         usings.append(current_line)
         return
     
-    lines.append(current_line)
+    lines.append(prepend_tab(current_line))
+
+def prepend_tab(text):
+    return '\t' + text
 
 def clean_string_ascii(text):
     chars = list()
@@ -61,18 +64,20 @@ def remove_doubles(a_list):
     return list(set(a_list))
 
 def build_merged_file_content(plugin_name, lines, usings):
-    file_lines = ["namespace {}Plugin ".format(plugin_name)]
-    file_lines.append("{\n")
-    
+    EMPTY_LINE = "\n"
+    file_lines = list()
+
     for using in usings:
         file_lines.append(using)
+
+    file_lines.append(EMPTY_LINE)
+    file_lines.append("namespace " + plugin_name + "Plugin {\n")
 
     for line in lines:
         file_lines.append(line)
 
-    file_lines.append("}")
+    file_lines.append("\n}")
     return "".join(file_lines)
-
 
 if __name__ == "__main__":
     main(sys.argv)

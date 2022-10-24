@@ -1,5 +1,4 @@
 ﻿namespace PluginMarksSaver;
-
 using System.Collections.Generic;
 using MCGalaxy;
 using MCGalaxy.Events.PlayerEvents;

@@ -1,7 +1,4 @@
 ﻿namespace PluginMarksSaver;
-
-using System;
-using System.Data.Common;
 using MCGalaxy;
 
 public sealed class MarksSaverPlugin : Plugin

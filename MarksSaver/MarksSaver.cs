@@ -1,16 +1,11 @@
-using MCGalaxy.DB;
+using System.Collections.Generic;
+using MCGalaxy.Commands;
 using MCGalaxy.Maths;
+using MCGalaxy;
 using MCGalaxy.Events.PlayerEvents;
 using BlockID = System.UInt16;
-using MCGalaxy.Commands;
-using System.Data.Common;
-using System.ComponentModel.Design;
-using System;
-using System.Collections.Generic;
-using MCGalaxy;
 
 namespace MarksSaverPlugin {
-	
 	
 	public static class SavedMarks
 	{
@@ -37,7 +32,6 @@ namespace MarksSaverPlugin {
 	    }
 	}
 	
-	
 	public static class SaveMarksUtils
 	{
 	    public static string ToStringNoComma(this Vec3S32 vector)
@@ -45,7 +39,6 @@ namespace MarksSaverPlugin {
 	        return $"{vector.X} {vector.Y} {vector.Z}";
 	    }
 	}	
-	
 	public class CmdLoadMarks : Command
 	{
 	    public override string name => "loadmarks";
@@ -86,7 +79,6 @@ namespace MarksSaverPlugin {
 	        }
 	    }
 	}	
-	
 	public sealed class CmdSaveMarks : Command
 	{
 	    public override string name => "savemarks";
@@ -161,7 +153,6 @@ namespace MarksSaverPlugin {
 	        return true;
 	    }
 	}	
-	
 	public sealed class MarksSaverPlugin : Plugin
 	{
 	    public override string name { get { return "MarksSaver"; } }

@@ -1,10 +1,7 @@
 ﻿namespace PluginMarksSaver;
-
-using System;
-using System.ComponentModel.Design;
 using MCGalaxy;
-using MCGalaxy.Maths;
 using MCGalaxy.Commands;
+using MCGalaxy.Maths;
 using BlockID = System.UInt16;
 
 public sealed class CmdSaveMarks : Command

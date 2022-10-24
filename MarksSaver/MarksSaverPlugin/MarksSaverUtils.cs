@@ -1,6 +1,4 @@
 ﻿namespace PluginMarksSaver;
-
-using System;
 using MCGalaxy.Maths;
 
 public static class SaveMarksUtils

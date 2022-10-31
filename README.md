@@ -29,3 +29,16 @@ This plugin is inspired by erosion in binary image processing. It adds a new `/e
 Download link: [MarksSaver.cs](https://github.com/dflat2/MCGalaxyPlugins/blob/main/MarksSaver/MarksSaver.cs)
 
 This plugins adds two commands: `/savemarks` and `/loadmarks`. When building you often need to run long distances to `/mark` or to memorize coordinates. `/savemarks` lets you mark a region once and for all, and experiment multiple draw commands over this region by marking with `/loadmarks` (or its shorter version `/lm`). For instance, running `/z` then `/lm` would cuboid over the saved region.
+
+### EasyFences
+
+Download link: [EasyFences.cs](https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/main/EasyFences/EasyFences.cs)
+
+`/easyfences` (or its shorthand `/ezf`) guides you through the process of adding all blocks necessary to build Minecraft-like fences. Features:
+
++ Ability to control the offsets of fence-elements (underground or above the posts)
++ Generates as few blocks as necessary depending on your needs
++ You can turn any block into a fence-set in less than a minute
++ Decide whether players should be able to jump over the fences
+
+This plugin is still a work in progress. Yet, only local fences can be generated and its user has to have permission for `/lb`.

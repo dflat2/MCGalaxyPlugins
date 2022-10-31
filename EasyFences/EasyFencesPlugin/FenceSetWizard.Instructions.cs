@@ -4,55 +4,26 @@ using System.Collections.Generic;
 using MCGalaxy;
 using MCGalaxy.DB;
 
-internal class FenceSetWizard
+internal partial class FenceSetWizard
 {
-    private FenceSetProps set;
-    private delegate bool Process(string input);
-    private Player p;
+    private string[] instructionsCanJumpOver =
+    { "Can the player jump over the fences? [yes/no]" };
 
-    private string abortMsg = "&SUse &T/ezf abort &Sat any time to stop making the fences.";
-    private string revertMsg = "&SUse &T/ezf revert &Sto go back a step.";
-    private string promptInputMsg = "&SUse &T/ezf [input] &Sto provide input.";
-    private string dashesMsg = "&f--------------------------";
+    private string[] instructionsDoBury =
+    { "Will the fence elements be buried? [yes/no]" };
 
-    internal FenceSetWizard(Player p)
+    private string[] instructionsSourceID =
+    { "Which block-id will the fences be copied from?" };
+
+    private string[] instructionsCrossIntersect =
+    { "Do you need +-shaped intersections? [yes/no]" };
+
+    private string[] instructionsTIntersect =
+    { "Do you need T-shaped intersections? [yes/no]" };
+
+    private string[] instructionsDestID =
     {
-        this.set = new FenceSetProps();
-        this.p = p;
-    }
-
-    internal void ManageInput(string input)
-    {
-
-    }
-
-    private bool ProcessCanJumpOver(string input)
-    {
-        return true;
-    }
-
-    private bool ProcessDoBury(string input)
-    {
-        return true;
-    }
-
-    private bool ProcessSourceID(string input)
-    {
-        return true;
-    }
-
-    private bool ProcessDestID(string input)
-    {
-        return true;
-    }
-
-    private bool ProcessCrossIntersect(string input)
-    {
-        return true;
-    }
-
-    private bool ProcessTIntersect(string input)
-    {
-        return true;
-    }
+        "Type the target id for the post block",
+        "Others fence elements will be added consecutively."
+    };
 }

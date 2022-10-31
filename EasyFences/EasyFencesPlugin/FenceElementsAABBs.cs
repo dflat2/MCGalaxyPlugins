@@ -37,13 +37,13 @@ internal static class FenceElementsAABBs
             case (ElementDirection.Z):
                 switch (position)
                 {
-                    case (ElementPosition.BottomLeft):
-                        return new AABB(7, BOTTOM_BARRIER_MIN_Y, 0, 9, BOTTOM_BARRIER_MAX_Y, 6);
                     case (ElementPosition.BottomRight):
+                        return new AABB(7, BOTTOM_BARRIER_MIN_Y, 0, 9, BOTTOM_BARRIER_MAX_Y, 6);
+                    case (ElementPosition.BottomLeft):
                         return new AABB(7, BOTTOM_BARRIER_MIN_Y, 10, 9, BOTTOM_BARRIER_MAX_Y, 16);
-                    case (ElementPosition.TopLeft):
-                        return new AABB(7, TOP_BARRIER_MIN_Y, 0, 9, TOP_BARRIER_MAX_Y, 6);
                     case (ElementPosition.TopRight):
+                        return new AABB(7, TOP_BARRIER_MIN_Y, 0, 9, TOP_BARRIER_MAX_Y, 6);
+                    case (ElementPosition.TopLeft):
                         return new AABB(7, TOP_BARRIER_MIN_Y, 10, 9, TOP_BARRIER_MAX_Y, 16);
                     default:
                         return DEFAULT_AABB;

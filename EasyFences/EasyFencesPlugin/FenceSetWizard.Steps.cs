@@ -2,52 +2,55 @@
 using System;
 using System.Collections.Generic;
 using MCGalaxy;
-using MCGalaxy.DB;
+using MCGalaxy.Commands;
 
 internal partial class FenceSetWizard
 {
-    private FenceSetProps set;
-    private delegate bool Step(string input);
-    private Player p;
-
-    internal FenceSetWizard(Player p)
+    private bool StepSourceID(string input)
     {
-        this.set = new FenceSetProps();
-        this.p = p;
-    }
-
-    internal void ManageInput(string input)
-    {
-
+        int result = 0;
+        bool success = CommandParser.GetInt(player, input, "block-id", ref result, 1, 1024);
+        SetProps.CopiedFrom = (ushort) result;
+        return success;
     }
 
     private bool StepCanJumpOver(string input)
     {
-        return true;
+        bool result = false;
+        bool success = CommandParser.GetBool(player, input, ref result);
+        SetProps.CanJumpOver = result;
+        return success;
     }
 
     private bool StepDoBury(string input)
     {
-        return true;
-    }
-
-    private bool StepSourceID(string input)
-    {
-        return true;
-    }
-
-    private bool StepDestID(string input)
-    {
-        return true;
+        bool result = false;
+        bool success = CommandParser.GetBool(player, input, ref result);
+        SetProps.DoBury = result;
+        return success;
     }
 
     private bool StepCrossIntersect(string input)
     {
-        return true;
+        bool result = false;
+        bool success = CommandParser.GetBool(player, input, ref result);
+        SetProps.CrossIntersect = result;
+        return success;
     }
 
     private bool StepTIntersect(string input)
     {
-        return true;
+        bool result = false;
+        bool success = CommandParser.GetBool(player, input, ref result);
+        SetProps.TIntersect = result;
+        return success;
+    }
+
+    private bool StepDestID(string input)
+    {
+        int result = 0;
+        bool success = CommandParser.GetInt(player, input, "block-id", ref result, 1, 1024);
+        SetProps.CopiedTo = (ushort)result;
+        return success;
     }
 }

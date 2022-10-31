@@ -26,7 +26,7 @@ This plugin is inspired by erosion in binary image processing. It adds a new `/e
 
 ### MarksSaver
 
-Download link: [MarksSaver.cs](https://github.com/dflat2/MCGalaxyPlugins/blob/main/MarksSaver/MarksSaver.cs)
+Download link: [MarksSaver.cs](https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/main/MarksSaver/MarksSaver.cs)
 
 This plugins adds two commands: `/savemarks` and `/loadmarks`. When building you often need to run long distances to `/mark` or to memorize coordinates. `/savemarks` lets you mark a region once and for all, and experiment multiple draw commands over this region by marking with `/loadmarks` (or its shorter version `/lm`). For instance, running `/z` then `/lm` would cuboid over the saved region.
 

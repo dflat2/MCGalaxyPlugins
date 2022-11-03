@@ -40,5 +40,3 @@ Download link: [EasyFences.cs](https://raw.githubusercontent.com/dflat2/MCGalaxy
 + Generates as few blocks as necessary depending on your needs
 + You can turn any block into a fence-set in less than a minute
 + Decide whether players should be able to jump over the fences
-
-This plugin is still a work in progress. Yet, only local fences can be generated and its user has to have permission for `/lb`.

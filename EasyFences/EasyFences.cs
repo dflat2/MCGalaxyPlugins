@@ -1,12 +1,12 @@
-using MCGalaxy.Maths;
-using System.Collections.Generic;
-using MCGalaxy.Blocks;
-using MCGalaxy.Commands;
-using MCGalaxy.Commands.CPE;
-using MCGalaxy.DB;
-using System;
 using BlockID = System.UInt16;
+using MCGalaxy.Commands;
+using MCGalaxy.DB;
+using System.Collections.Generic;
+using MCGalaxy.Maths;
 using MCGalaxy;
+using MCGalaxy.Blocks;
+using MCGalaxy.Commands.CPE;
+using System;
 
 namespace EasyFencesPlugin {
 	
@@ -78,9 +78,9 @@ namespace EasyFencesPlugin {
 	            switch (type)
 	            {
 	                case ElementType.Barrier:
-	                case ElementType.AntiJumpOverCorner:
 	                    return ApplyOffset(FenceElementsAABBs.Barrier(direction, position));
 	                case ElementType.Post:
+	                case ElementType.AntiJumpOverCorner:
 	                    return FenceElementsAABBs.Post();
 	                case ElementType.Corner:
 	                    return ApplyOffset(FenceElementsAABBs.Corner(direction, position));
@@ -119,31 +119,35 @@ namespace EasyFencesPlugin {
 	        }
 	    }
 	
-	    internal List<string> RawCommands(Player p, int count)
+	    internal List<string> RawCommands(Player player, int count, string prefix)
 	    {
 	        int targetID = copiedTo + count;
 	        List<string> commands = new List<string>();
-	        commands.Add($"copy {copiedFrom} {targetID}");
+	        commands.Add($"{prefix}copy {copiedFrom} {targetID}");
 	
 	        string minimum = Aabb.Min.ToStringNoComma();
 	        string maximum = Aabb.Max.ToStringNoComma();
 	
-	        commands.Add($"edit {targetID} min {minimum}");
-	        commands.Add($"edit {targetID} max {maximum}");
-	        commands.Add($"edit {targetID} blockslight no");
+	        commands.Add($"{prefix}edit {targetID} min {minimum}");
+	        commands.Add($"{prefix}edit {targetID} max {maximum}");
+	        commands.Add($"{prefix}edit {targetID} blockslight no");
 	
-	        if (type == ElementType.AntiJumpOver)
-	            commands.Add($"edit {targetID} blockdraw 4");
+	        if (type == ElementType.AntiJumpOver || type == ElementType.AntiJumpOverCorner)
+	            commands.Add($"{prefix}edit {targetID} blockdraw 4");
 	
 	        if (offset != 0)
 	        {
-	            BlockDefinition def = CopiedFromBD(p);
+	            BlockDefinition def = CopiedFromBD(player);
 	            int sideTexID = def.FrontTex;
-	            // FIXME: Known issue: things will go wrong when wrapping if current texture pack has 512 textures
-	            commands.Add($"edit {targetID} sidetex {(sideTexID - offset) % 256}");
+	
+	            // Known issue: things will go wrong when wrapping if current texture pack has 512 textures
+	            if (sideTexID - offset >= 0)
+	                commands.Add($"{prefix}edit {targetID} sidetex {(sideTexID - offset) % 256}");
+	            else
+	                commands.Add($"{prefix}edit {targetID} sidetex {(sideTexID - offset) % 256 + 256}");
 	        }
 	
-	        commands.Add($"edit {targetID} name {this.ToString()}");
+	        commands.Add($"{prefix}edit {targetID} name {this.ToString()}");
 	
 	        return commands;
 	    }
@@ -174,7 +178,7 @@ namespace EasyFencesPlugin {
 	    public override string shortcut => "ezf";
 	    public override bool SuperUseable => false;
 	
-	    private string usage = "&T/makefences";
+	    private string usage = "&T/easyfences";
 	    
 	    public override void Help(Player p)
 	    {
@@ -217,22 +221,34 @@ namespace EasyFencesPlugin {
 	    private void AddFencesElements(Player p, List<FenceElement> elements)
 	    {
 	        Command cmdLevelBlock = Command.Find("levelblock");
+	        Command cmdOverseer = Command.Find("overseer");
+	
+	        Command lbCmd = cmdLevelBlock;
+	        string prefix = "";
 	
 	        if (!p.CanUse(cmdLevelBlock))
 	        {
-	            p.Message("&WYou do not have the permissions to edit level blocks on this map.");
-	            return;
+	            if (LevelInfo.IsRealmOwner(p.Level, p.name))
+	            {
+	                lbCmd = cmdOverseer;
+	                prefix = "lb ";
+	            }
+	            else
+	            {
+	                p.Message("&WYou do not have the permissions to edit level blocks on this map.");
+	                return;
+	            }
 	        }
 	
 	        List<string> rawCommands;
 	
 	        for (int i = 0; i < elements.Count; i++)
 	        {
-	            rawCommands = elements[i].RawCommands(p, i);
+	            rawCommands = elements[i].RawCommands(player: p, count: i, prefix: prefix);
 	
 	            foreach (string command in rawCommands)
 	            {
-	                cmdLevelBlock.Use(p, command);
+	                lbCmd.Use(p, command);
 	            }
 	        }
 	    }
@@ -404,8 +420,22 @@ namespace EasyFencesPlugin {
 	    private bool StepDestID(string input)
 	    {
 	        int result = 0;
-	        bool success = CommandParser.GetInt(player, input, "block-id", ref result, 1, 1024);
-	        SetProps.CopiedTo = (ushort)result;
+	        bool success = CommandParser.GetInt(player, input, "block-id", ref result, 0, Block.MaxRaw - SetProps.BlocksCount);
+	
+	        if (success)
+	        {
+	            if (!IsRangeFree((ushort) result, (ushort)(result + SetProps.BlocksCount - 1), player.Level))
+	            {
+	                player.Message($"&WThe {result}-{result + SetProps.BlocksCount - 1} range already have level blocks.");
+	                player.Message($"&WPlease remove them or choose another range.");
+	                success = false;
+	            }
+	            else
+	            {
+	                SetProps.CopiedTo = (ushort)result;
+	            }
+	        }
+	
 	        return success;
 	    }
 	}
@@ -426,6 +456,7 @@ namespace EasyFencesPlugin {
 	    internal bool    DoBury         = false;
 	    internal bool    CrossIntersect = false;
 	    internal bool    TIntersect     = false;
+	    internal bool    Global         = false;
 	
 	    internal int BlocksCount {
 	        get {
@@ -444,7 +475,7 @@ namespace EasyFencesPlugin {
 	
 	public class EasyFencesPlugin : Plugin
 	{
-	    public override string name => "EasyFences";
+	    public override string name => "EasyFencesPlugin";
 	    public override string MCGalaxy_Version => "1.9.4.3";
 	
 	    public override void Load(bool auto)
@@ -454,11 +485,9 @@ namespace EasyFencesPlugin {
 	
 	    public override void Unload(bool auto)
 	    {
-	        Command.Unregister(Command.Find("makefences"));
+	        Command.Unregister(Command.Find("easyfences"));
 	    }
-	}
-	
-	
+	}	
 	internal partial class FenceSetWizard
 	{
 	    private FenceSetProps SetProps;
@@ -728,6 +757,20 @@ namespace EasyFencesPlugin {
 	                copiedTo: SetProps.CopiedTo
 	            )
 	        );
+	    }
+	
+	    internal bool IsRangeFree(BlockID rawBlockMin, BlockID rawBlockMax, Level level)
+	    {
+	        BlockDefinition[] defs = level.CustomBlockDefs;
+	        BlockID blockMin = Block.FromRaw(rawBlockMin);
+	        BlockID blockMax = Block.FromRaw(rawBlockMax);
+	
+	        for (int b = blockMin; b <= blockMax; b++)
+	        {
+	            if (defs[b] != null) return false;
+	        }
+	
+	        return true;
 	    }
 	}
 }

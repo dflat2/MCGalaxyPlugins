@@ -50,9 +50,9 @@ internal class FenceElement
             switch (type)
             {
                 case ElementType.Barrier:
-                case ElementType.AntiJumpOverCorner:
                     return ApplyOffset(FenceElementsAABBs.Barrier(direction, position));
                 case ElementType.Post:
+                case ElementType.AntiJumpOverCorner:
                     return FenceElementsAABBs.Post();
                 case ElementType.Corner:
                     return ApplyOffset(FenceElementsAABBs.Corner(direction, position));
@@ -104,7 +104,7 @@ internal class FenceElement
         commands.Add($"{prefix}edit {targetID} max {maximum}");
         commands.Add($"{prefix}edit {targetID} blockslight no");
 
-        if (type == ElementType.AntiJumpOver)
+        if (type == ElementType.AntiJumpOver || type == ElementType.AntiJumpOverCorner)
             commands.Add($"{prefix}edit {targetID} blockdraw 4");
 
         if (offset != 0)

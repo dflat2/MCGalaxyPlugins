@@ -49,8 +49,22 @@ internal partial class FenceSetWizard
     private bool StepDestID(string input)
     {
         int result = 0;
-        bool success = CommandParser.GetInt(player, input, "block-id", ref result, 1, 1024);
-        SetProps.CopiedTo = (ushort)result;
+        bool success = CommandParser.GetInt(player, input, "block-id", ref result, 0, Block.MaxRaw - SetProps.BlocksCount);
+
+        if (success)
+        {
+            if (!IsRangeFree((ushort) result, (ushort)(result + SetProps.BlocksCount - 1), player.Level))
+            {
+                player.Message($"&WThe {result}-{result + SetProps.BlocksCount - 1} range already have level blocks.");
+                player.Message($"&WPlease remove them or choose another range.");
+                success = false;
+            }
+            else
+            {
+                SetProps.CopiedTo = (ushort)result;
+            }
+        }
+
         return success;
     }
 }

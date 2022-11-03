@@ -91,35 +91,35 @@ internal class FenceElement
         }
     }
 
-    internal List<string> RawCommands(Player p, int count)
+    internal List<string> RawCommands(Player player, int count, string prefix)
     {
         int targetID = copiedTo + count;
         List<string> commands = new List<string>();
-        commands.Add($"copy {copiedFrom} {targetID}");
+        commands.Add($"{prefix}copy {copiedFrom} {targetID}");
 
         string minimum = Aabb.Min.ToStringNoComma();
         string maximum = Aabb.Max.ToStringNoComma();
 
-        commands.Add($"edit {targetID} min {minimum}");
-        commands.Add($"edit {targetID} max {maximum}");
-        commands.Add($"edit {targetID} blockslight no");
+        commands.Add($"{prefix}edit {targetID} min {minimum}");
+        commands.Add($"{prefix}edit {targetID} max {maximum}");
+        commands.Add($"{prefix}edit {targetID} blockslight no");
 
         if (type == ElementType.AntiJumpOver)
-            commands.Add($"edit {targetID} blockdraw 4");
+            commands.Add($"{prefix}edit {targetID} blockdraw 4");
 
         if (offset != 0)
         {
-            BlockDefinition def = CopiedFromBD(p);
+            BlockDefinition def = CopiedFromBD(player);
             int sideTexID = def.FrontTex;
 
             // Known issue: things will go wrong when wrapping if current texture pack has 512 textures
             if (sideTexID - offset >= 0)
-                commands.Add($"edit {targetID} sidetex {(sideTexID - offset) % 256}");
+                commands.Add($"{prefix}edit {targetID} sidetex {(sideTexID - offset) % 256}");
             else
-                commands.Add($"edit {targetID} sidetex {(sideTexID - offset) % 256 + 256}");
+                commands.Add($"{prefix}edit {targetID} sidetex {(sideTexID - offset) % 256 + 256}");
         }
 
-        commands.Add($"edit {targetID} name {this.ToString()}");
+        commands.Add($"{prefix}edit {targetID} name {this.ToString()}");
 
         return commands;
     }

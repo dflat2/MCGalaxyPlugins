@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using MCGalaxy;
 using MCGalaxy.DB;
+using BlockID = System.UInt16;
 
 internal partial class FenceSetWizard
 {
@@ -273,5 +274,19 @@ internal partial class FenceSetWizard
                 copiedTo: SetProps.CopiedTo
             )
         );
+    }
+
+    internal bool IsRangeFree(BlockID rawBlockMin, BlockID rawBlockMax, Level level)
+    {
+        BlockDefinition[] defs = level.CustomBlockDefs;
+        BlockID blockMin = Block.FromRaw(rawBlockMin);
+        BlockID blockMax = Block.FromRaw(rawBlockMax);
+
+        for (int b = blockMin; b <= blockMax; b++)
+        {
+            if (defs[b] != null) return false;
+        }
+
+        return true;
     }
 }

@@ -55,22 +55,34 @@ public class CmdEasyFences : Command2
     private void AddFencesElements(Player p, List<FenceElement> elements)
     {
         Command cmdLevelBlock = Command.Find("levelblock");
+        Command cmdOverseer = Command.Find("overseer");
+
+        Command lbCmd = cmdLevelBlock;
+        string prefix = "";
 
         if (!p.CanUse(cmdLevelBlock))
         {
-            p.Message("&WYou do not have the permissions to edit level blocks on this map.");
-            return;
+            if (LevelInfo.IsRealmOwner(p.Level, p.name))
+            {
+                lbCmd = cmdOverseer;
+                prefix = "lb ";
+            }
+            else
+            {
+                p.Message("&WYou do not have the permissions to edit level blocks on this map.");
+                return;
+            }
         }
 
         List<string> rawCommands;
 
         for (int i = 0; i < elements.Count; i++)
         {
-            rawCommands = elements[i].RawCommands(p, i);
+            rawCommands = elements[i].RawCommands(player: p, count: i, prefix: prefix);
 
             foreach (string command in rawCommands)
             {
-                cmdLevelBlock.Use(p, command);
+                lbCmd.Use(p, command);
             }
         }
     }

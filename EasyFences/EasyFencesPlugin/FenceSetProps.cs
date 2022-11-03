@@ -11,6 +11,7 @@ internal class FenceSetProps
     internal bool    DoBury         = false;
     internal bool    CrossIntersect = false;
     internal bool    TIntersect     = false;
+    internal bool    Global         = false;
 
     internal int BlocksCount {
         get {

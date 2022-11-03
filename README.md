@@ -4,7 +4,7 @@ This repository contains source codes for my MCGalaxy Plugins.
 
 ## Installing a plugin
 
-**Requierement.** An MCGalaxy server, preferably version 1.9.4.3 or greater (I didn't test the plugins on earlier versions but they will most likely work on them).
+**Requirement.** An MCGalaxy server, preferably version 1.9.4.3 or greater (I didn't test the plugins on earlier versions but they will most likely work on them).
 
 Each plugin has its own folder. Let's say for instance that you want to install the Erosion plugin.
 

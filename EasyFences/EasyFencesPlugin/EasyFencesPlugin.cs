@@ -16,4 +16,3 @@ public class EasyFencesPlugin : Plugin
         Command.Unregister(Command.Find("easyfences"));
     }
 }
-

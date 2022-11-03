@@ -12,7 +12,7 @@ public class CmdEasyFences : Command2
     public override string shortcut => "ezf";
     public override bool SuperUseable => false;
 
-    private string usage = "&T/makefences";
+    private string usage = "&T/easyfences";
     
     public override void Help(Player p)
     {

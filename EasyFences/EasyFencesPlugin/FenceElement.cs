@@ -111,8 +111,12 @@ internal class FenceElement
         {
             BlockDefinition def = CopiedFromBD(p);
             int sideTexID = def.FrontTex;
-            // FIXME: Known issue: things will go wrong when wrapping if current texture pack has 512 textures
-            commands.Add($"edit {targetID} sidetex {(sideTexID - offset) % 256}");
+
+            // Known issue: things will go wrong when wrapping if current texture pack has 512 textures
+            if (sideTexID - offset >= 0)
+                commands.Add($"edit {targetID} sidetex {(sideTexID - offset) % 256}");
+            else
+                commands.Add($"edit {targetID} sidetex {(sideTexID - offset) % 256 + 256}");
         }
 
         commands.Add($"edit {targetID} name {this.ToString()}");

@@ -3,7 +3,7 @@ using MCGalaxy;
 
 public class EasyFencesPlugin : Plugin
 {
-    public override string name => "EasyFences";
+    public override string name => "EasyFencesPlugin";
     public override string MCGalaxy_Version => "1.9.4.3";
 
     public override void Load(bool auto)
@@ -13,7 +13,7 @@ public class EasyFencesPlugin : Plugin
 
     public override void Unload(bool auto)
     {
-        Command.Unregister(Command.Find("makefences"));
+        Command.Unregister(Command.Find("easyfences"));
     }
 }
 

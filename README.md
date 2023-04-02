@@ -18,6 +18,12 @@ When restarting your server, the plugin will be loaded automatically.
 
 ## Plugins
 
+### DotStatus
+
+Download link: [DotStatus.cs](https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/main/DotStatus/DotStatus.cs)
+
+Displays zombie survival status when a player sends a message with a single `.` or a single `t`. To use it with lava survival instead, change the corresponding line in the plugin.
+
 ### Erosion
 
 Download link: [Erosion.cs](https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/main/Erosion/Erosion.cs)

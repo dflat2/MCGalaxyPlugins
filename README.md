@@ -51,3 +51,11 @@ Known issues:
 
 + When using a texture pack with more than 256 textures (i.e. 512), fences' side textures  will be very likely wrong if fences are built from a block with either a low texture ID (less than 4) or a high texture ID (above 252).
 + If you decide to bury fences, it's recommended to disable jumping over the fences, because collisions with barriers and corners sometimes go wrong.
+
+## Commands
+
+### LastModifiedLevels
+
+Download link: [CmdLastModifiedLevels.cs](https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/main/Commands/Commands/CmdLastModifiedLevels.cs)
+
+Displays the last 10 modified levels. Note that it only takes blocks into account (ie. adding portals won't count as an update).

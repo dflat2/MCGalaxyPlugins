@@ -1,6 +1,5 @@
 using MCGalaxy.Events.PlayerEvents;
 using MCGalaxy;
-using System;
 
 namespace DotStatusPlugin {
 	
@@ -11,7 +10,7 @@ namespace DotStatusPlugin {
 	
 	    public override string name => "DotStatus";
 	    public override string creator => "D_Flat";
-	    public override string MCGalaxy_Version => "1.9.4.3";
+	    public override string MCGalaxy_Version => "1.9.4.9";
 	
 	    public override void Load(bool auto)
 	    {

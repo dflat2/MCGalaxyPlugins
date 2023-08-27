@@ -1,12 +1,11 @@
-using BlockID = System.UInt16;
-using MCGalaxy.Commands;
 using MCGalaxy.DB;
-using System.Collections.Generic;
 using MCGalaxy.Maths;
+using BlockID = System.UInt16;
+using System;
+using MCGalaxy.Commands;
 using MCGalaxy;
 using MCGalaxy.Blocks;
-using MCGalaxy.Commands.CPE;
-using System;
+using System.Collections.Generic;
 
 namespace EasyFencesPlugin {
 	
@@ -33,6 +32,7 @@ namespace EasyFencesPlugin {
 	        "Others fence elements will be added consecutively."
 	    };
 	}
+	
 	
 	internal class FenceElement
 	{
@@ -476,7 +476,7 @@ namespace EasyFencesPlugin {
 	public class EasyFencesPlugin : Plugin
 	{
 	    public override string name => "EasyFencesPlugin";
-	    public override string MCGalaxy_Version => "1.9.4.3";
+	    public override string MCGalaxy_Version => "1.9.4.9";
 	
 	    public override void Load(bool auto)
 	    {

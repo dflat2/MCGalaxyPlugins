@@ -1,12 +1,12 @@
-using System.Collections.Generic;
 using System;
-using BlockID = System.UInt16;
-using MCGalaxy.Drawing.Brushes;
-using MCGalaxy.Commands;
-using MCGalaxy.Drawing.Ops;
-using MCGalaxy;
-using MCGalaxy.Maths;
+using System.Collections.Generic;
 using MCGalaxy.Commands.Building;
+using MCGalaxy.Drawing.Ops;
+using MCGalaxy.Maths;
+using MCGalaxy.Drawing.Brushes;
+using MCGalaxy;
+using BlockID = System.UInt16;
+using MCGalaxy.Commands;
 
 namespace ErosionPlugin {
 	
@@ -206,7 +206,7 @@ namespace ErosionPlugin {
 	{
 	    public override string name { get { return "Erosion"; } }
 	    public override string creator { get { return "D_Flat"; } }
-	    public override string MCGalaxy_Version { get { return "1.9.4.3"; } }
+	    public override string MCGalaxy_Version { get { return "1.9.4.9"; } }
 	
 	    public override void Load(bool startup)
 	    {

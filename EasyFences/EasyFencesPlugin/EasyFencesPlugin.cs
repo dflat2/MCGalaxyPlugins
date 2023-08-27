@@ -4,7 +4,7 @@ using MCGalaxy;
 public class EasyFencesPlugin : Plugin
 {
     public override string name => "EasyFencesPlugin";
-    public override string MCGalaxy_Version => "1.9.4.3";
+    public override string MCGalaxy_Version => "1.9.4.9";
 
     public override void Load(bool auto)
     {

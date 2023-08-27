@@ -11,8 +11,6 @@
     <LangVersion>latestmajor</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MCGalaxy_">
-      <HintPath>..\..\MCGalaxy_.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\MCGalaxy\MCGalaxy\MCGalaxy_.csproj" />
   </ItemGroup>
 </Project>

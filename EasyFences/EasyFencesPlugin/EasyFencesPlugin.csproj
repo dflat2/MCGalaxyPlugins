@@ -6,17 +6,12 @@
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <LangVersion>10.0</LangVersion>
+    <LangVersion>latestmajor</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <LangVersion>10.0</LangVersion>
+    <LangVersion>latestmajor</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="MCGalaxy_" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="MCGalaxy_">
-      <HintPath>..\..\MCGalaxy_.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\MCGalaxy\MCGalaxy\MCGalaxy_.csproj" />
   </ItemGroup>
 </Project>

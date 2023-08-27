@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -13,11 +11,6 @@
     <LangVersion>latestmajor</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="MCGalaxy_" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="MCGalaxy_">
-      <HintPath>..\..\MCGalaxy_.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\MCGalaxy\MCGalaxy\MCGalaxy_.csproj" />
   </ItemGroup>
 </Project>

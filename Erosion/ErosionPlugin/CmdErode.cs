@@ -6,7 +6,7 @@ using MCGalaxy.Commands;
 using MCGalaxy.Commands.Building;
 using MCGalaxy.Drawing.Ops;
 using MCGalaxy.Maths;
-using BlockID = System.UInt16;
+using BlockID = UInt16;
 
 public class CmdErode : DrawCmd
 {

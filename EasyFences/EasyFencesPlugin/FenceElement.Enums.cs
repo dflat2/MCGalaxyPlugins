@@ -1,5 +1,4 @@
 ﻿namespace PluginEasyFences;
-using System;
 
 internal enum ElementType
 {

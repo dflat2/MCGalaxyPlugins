@@ -11,14 +11,14 @@ public sealed class MarksSaverPlugin : Plugin
     {
         Command.Register(new CmdSaveMarks());
         Command.Register(new CmdLoadMarks());
-        Chat.MessageGlobal("&aSaveMarks plugin successfuly loaded.");
+        Chat.MessageGlobal("&aSaveMarks plugin successfully loaded.");
     }
 
     public override void Unload(bool shutdown)
     {
         Command.Unregister(Command.Find("savemarks"));
         Command.Unregister(Command.Find("loadmarks"));
-        Chat.MessageGlobal("&cSaveMarks plugin successfuly unloaded.");
+        Chat.MessageGlobal("&cSaveMarks plugin successfully unloaded.");
     }
 
     public override void Help(Player p)

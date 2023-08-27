@@ -1,5 +1,4 @@
 ﻿namespace PluginEasyFences;
-using System;
 using MCGalaxy;
 using BlockID = System.UInt16;
 

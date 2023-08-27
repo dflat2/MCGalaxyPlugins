@@ -2,7 +2,7 @@
 using MCGalaxy;
 using MCGalaxy.Commands;
 using MCGalaxy.Maths;
-using BlockID = System.UInt16;
+using BlockID = UInt16;
 
 public sealed class CmdSaveMarks : Command
 {

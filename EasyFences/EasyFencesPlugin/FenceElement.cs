@@ -1,5 +1,5 @@
 ﻿namespace PluginEasyFences;
-using System;
+
 using System.Collections.Generic;
 using MCGalaxy;
 using MCGalaxy.Blocks;

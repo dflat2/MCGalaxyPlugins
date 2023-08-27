@@ -1,6 +1,5 @@
 ﻿namespace PluginEasyFences;
 
-using System;
 using MCGalaxy.Maths;
 
 internal static class EasyFencesUtils

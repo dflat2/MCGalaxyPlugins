@@ -1,5 +1,4 @@
-﻿using System;
-using MCGalaxy;
+﻿using MCGalaxy;
 using MCGalaxy.Events.PlayerEvents;
 
 namespace DotStatusPlugin;

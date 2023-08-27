@@ -1,9 +1,6 @@
 ﻿namespace PluginEasyFences;
 using MCGalaxy;
-using MCGalaxy.Commands;
 using System.Collections.Generic;
-using MCGalaxy.Commands.CPE;
-using BlockID = System.UInt16;
 
 public class CmdEasyFences : Command2
 {

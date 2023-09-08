@@ -59,3 +59,9 @@ Known issues:
 Download link: [CmdLastModifiedLevels.cs](https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/main/Commands/Commands/CmdLastModifiedLevels.cs)
 
 Displays the last 10 modified levels. Note that it only takes blocks into account (ie. adding portals won't count as an update).
+
+### ConsoleDo
+
+Download link: [CmdConsoleDo.cs](https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/main/Commands/Commands/CmdConsoleDo.cs)
+
+Runs a command as console while in-game.

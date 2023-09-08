@@ -5,7 +5,7 @@ using MCGalaxy;
 public class CmdConsoleDo : Command
 {
     public override string name { get { return "ConsoleDo"; } }
-    public override string type { get { return CommandTypes.Information; } }
+    public override string type { get { return CommandTypes.Moderation; } }
     public override bool museumUsable { get { return true; } }
 
     public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }

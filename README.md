@@ -58,6 +58,12 @@ Download link: [CommandsUnloader.cs](https://raw.githubusercontent.com/dflat2/MC
 
 Unloads all commands with permission 120.
 
+### InvincibleReferees
+
+Download link: [InvincibleReferees.cs](https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/main/InvincibleReferees/InvincibleReferees.cs)
+
+Makes you invincible automatically when using `/Ref`.
+
 ## Commands
 
 ### LastModifiedLevels

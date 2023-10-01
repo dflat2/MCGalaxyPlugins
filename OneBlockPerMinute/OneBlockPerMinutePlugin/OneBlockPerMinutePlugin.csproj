@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="MCGalaxy_">
+      <HintPath>..\..\MCGalaxy_.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

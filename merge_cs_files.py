@@ -1,8 +1,3 @@
-# Merges multiple .cs files into one, so that the plugin can easily be loaded
-# into MCGalaxy and /pcompile'd. It won't work if a plugin uses multiple namespaces.
-# Moreover, the plugin has to comply with the directory hierarchy of this repo.
-# It won't work either with the old namespace notations "namespace A.B { ... }".
-# Use "namespace A.B;" instead.
 import sys
 import glob
 
@@ -12,7 +7,6 @@ def main(args):
         exit(1)
     
     _, plugin_name = args
-
     cs_files_paths = glob.glob("{}/{}Plugin/*.cs".format(plugin_name, plugin_name))
 
     usings = list()
@@ -35,9 +29,6 @@ def process_cs_file(file_path, usings, lines):
             process_line(current_line, usings, lines)
 
 def process_line(current_line, usings, lines):
-    # Sometimes Visual Studio seems to insert weird characters that I have to remove
-    # notably U+FEFF (otherwise it breaks the namespace test). TODO investigate this
-    # issue.
     current_line = clean_string_ascii(current_line)
 
     if current_line.startswith("namespace"):
@@ -45,11 +36,24 @@ def process_line(current_line, usings, lines):
     if current_line.startswith("using"):
         usings.append(current_line)
         return
+
+    if only_spaces(current_line):
+        current_line = "\n"
     
-    lines.append(prepend_tab(current_line))
+    if current_line != "\n":
+        current_line = prepend_tab(current_line)
+
+    lines.append(current_line)
+
+def only_spaces(string):
+    for character in string:
+        if character != " " and character != "\t" and character != "\n":
+            return False
+
+    return True
 
 def prepend_tab(text):
-    return '\t' + text
+    return '    ' + text
 
 def clean_string_ascii(text):
     chars = list()
@@ -71,7 +75,8 @@ def build_merged_file_content(plugin_name, lines, usings):
         file_lines.append(using)
 
     file_lines.append(EMPTY_LINE)
-    file_lines.append("namespace " + plugin_name + "Plugin {\n")
+    file_lines.append("namespace " + plugin_name + "Plugin\n")
+    file_lines.append("{")
 
     for line in lines:
         file_lines.append(line)

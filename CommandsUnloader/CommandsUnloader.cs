@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using MCGalaxy;
 
-namespace PluginCommandsUnloader {
+namespace CommandsUnloaderPlugin
+{
     public class CommandsUnloader : Plugin
     {
         public override string name => "CommandsUnloader";
@@ -48,4 +49,5 @@ namespace PluginCommandsUnloader {
             }
         }
     }
+
 }

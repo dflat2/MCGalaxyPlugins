@@ -1,8 +1,8 @@
 using MCGalaxy;
 using MCGalaxy.Events.PlayerEvents;
 
-namespace InvincibleRefereesPlugin {
-
+namespace InvincibleRefereesPlugin
+{
     public class InvincibleReferees : Plugin
     {
         public override string name => "InvincibleReferees";
@@ -37,4 +37,5 @@ namespace InvincibleRefereesPlugin {
             }
         }
     }
+
 }

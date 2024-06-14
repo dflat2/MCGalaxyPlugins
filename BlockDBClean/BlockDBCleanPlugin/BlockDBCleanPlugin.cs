@@ -13,19 +13,23 @@ public sealed class BlockDBCleanPlugin : Plugin
     public override string MCGalaxy_Version { get { return "1.9.4.9"; } }
 
     private Command _cmdBlockDBClean;
+    private Command _cmdBlockDBCleanAll;
 
     public BlockDBCleanPlugin() {
         _cmdBlockDBClean = new CmdBlockDBClean(this);
+        _cmdBlockDBCleanAll = new CmdBlockDBCleanAll(this);
     }
 
     public override void Load(bool startup)
     {
         Command.Register(_cmdBlockDBClean);
+        Command.Register(_cmdBlockDBCleanAll);
     }
 
     public override void Unload(bool shutdown)
     {
         Command.Unregister(_cmdBlockDBClean);
+        Command.Unregister(_cmdBlockDBCleanAll);
     }
 
     public override void Help(Player p)
@@ -33,7 +37,39 @@ public sealed class BlockDBCleanPlugin : Plugin
         // TODO
     }
 
-    public unsafe void Truncate(BlockDB blockDB, TimeSpan delta) {
+    private string FormatBytes(int bytes) {
+        if (bytes < 0) {
+            throw new ArgumentException(string.Format("{0} cannot be negative.", nameof(bytes)));
+        }
+
+        double size = bytes;
+        string[] units = { "b", "Kb", "Mb", "Gb" };
+        int unitIndex = 0;
+
+        while (size >= 1000 && unitIndex < units.Length - 1) {
+            size /= 1000;
+            unitIndex++;
+        }
+
+        string format = size == Math.Floor(size) ? "{0}{1}" : "{0:0.##}{1}";
+        return string.Format(format, size, units[unitIndex]);
+    }
+
+    public void ShowPurged(Player player, int bytes) {
+        player.Message(string.Format("Purged &T{0}&S.", FormatBytes(bytes)));
+    }
+
+    /// <summary> Truncate the block database, only keep records from the past 'delta'. </summary>
+    /// <returns> Size of purged block datas (in bytes). </returns>
+    public unsafe int Truncate(BlockDB blockDB, TimeSpan delta) {
+        blockDB.FlushCache();
+
+        if (!File.Exists(BlockDBFile.FilePath(blockDB.MapName))) {
+            return 0;
+        }
+
+        int purged = 0;
+
         string filePath = BlockDBFile.FilePath(blockDB.MapName);
         string tempPath = BlockDBFile.TempPath(blockDB.MapName);
 
@@ -59,7 +95,7 @@ public sealed class BlockDBCleanPlugin : Plugin
                         break;
                     }
 
-                    for (int i = count; i < count; i++) {
+                    for (int i = 0; i < count; i++) {
                         if (entryPointer[i].TimeDelta >= thresholdIntEpochs) {
                             Buffer.MemoryCopy(
                                 &entryPointer[i],
@@ -67,6 +103,8 @@ public sealed class BlockDBCleanPlugin : Plugin
                                 BlockDBFile.EntrySize,
                                 BlockDBFile.EntrySize);
                             written++;
+                        } else {
+                            purged += BlockDBFile.EntrySize;
                         }
                     }
 
@@ -77,5 +115,36 @@ public sealed class BlockDBCleanPlugin : Plugin
 
         File.Delete(filePath);
         File.Move(tempPath, filePath);
+        return purged;
+    }
+
+    public void TruncateAll(Player player, TimeSpan delta) {
+        int totalPurged = 0;
+        string[] maps = LevelInfo.AllMapNames();
+        Level level;
+        bool unloadAfter;
+
+        foreach (string map in maps) {
+            unloadAfter = false;
+            level = LevelInfo.FindExact(map);
+
+            if (level == null) {
+                unloadAfter = true;
+                level = LevelActions.Load(player, map, false);
+            }
+
+            if (level == null) {
+                player.Message(string.Format("Failed to load &T{0}&S, skipping.", map));
+                continue;
+            }
+
+            totalPurged += Truncate(level.BlockDB, delta);
+
+            if (unloadAfter) {
+                level.Unload(true);
+            }
+        }
+
+        player.Message(string.Format("Purged &T{0}&S.", FormatBytes(totalPurged)));
     }
 }

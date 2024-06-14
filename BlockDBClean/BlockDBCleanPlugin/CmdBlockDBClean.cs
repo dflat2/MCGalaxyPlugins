@@ -9,7 +9,6 @@ public class CmdBlockDBClean : Command {
     public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }
     private readonly BlockDBCleanPlugin _blockDBCleanPlugin;
 
-
     public CmdBlockDBClean(BlockDBCleanPlugin blockDBCleanPlugin) {
         _blockDBCleanPlugin = blockDBCleanPlugin;
     }
@@ -41,8 +40,8 @@ public class CmdBlockDBClean : Command {
             return;
         }
 
-        _blockDBCleanPlugin.Truncate(level.BlockDB, delta);
-        player.Message("Done.");
+        int purged = _blockDBCleanPlugin.Truncate(level.BlockDB, delta);
+        _blockDBCleanPlugin.ShowPurged(player, purged);
     }
 
     public override void Help(Player player) {

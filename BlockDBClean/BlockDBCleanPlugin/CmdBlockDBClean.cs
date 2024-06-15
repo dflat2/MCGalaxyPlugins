@@ -7,10 +7,11 @@ public class CmdBlockDBClean : Command {
     public override string name => "BlockDBClean";
     public override string type => CommandTypes.World;
     public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }
-    private readonly BlockDBCleanPlugin _blockDBCleanPlugin;
 
-    public CmdBlockDBClean(BlockDBCleanPlugin blockDBCleanPlugin) {
-        _blockDBCleanPlugin = blockDBCleanPlugin;
+    private readonly BlockDBCleaner _cleaner;
+
+    public CmdBlockDBClean(BlockDBCleaner cleaner) {
+        _cleaner = cleaner;
     }
 
     public override void Use(Player player, string message) {
@@ -40,8 +41,8 @@ public class CmdBlockDBClean : Command {
             return;
         }
 
-        int purged = _blockDBCleanPlugin.Truncate(level.BlockDB, delta);
-        _blockDBCleanPlugin.ShowPurged(player, purged);
+        int purged = _cleaner.Truncate(level.BlockDB, delta);
+        _cleaner.ShowPurged(player, purged);
     }
 
     public override void Help(Player player) {

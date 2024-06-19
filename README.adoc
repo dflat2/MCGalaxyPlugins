@@ -70,6 +70,12 @@ Download link: link:https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/mai
 
 Makes you invincible automatically when using `/Ref`.
 
+=== NoCmdMode
+
+Download link: link:https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/main/NoCmdMode/NoCmdMode.cs[NoCmdMode.cs]
+
+MCGalaxy provides an easy way to unload commands from the `server.properties` file, but `/Mode` won't work, because the game will throw an error when doing `/<block>` (for example `/Lava`, `/Water`, etc.). This plugin will unload `/Mode` correctly by filtering out commands matching a block name.
+
 == Commands
 
 === LastModifiedLevels

@@ -29,22 +29,22 @@ namespace NoCmdModePlugin
             OnPlayerCommandEvent.Unregister(HandlePlayerCommand);
         }
 
-        public override void Help(Player p) {
-            p.Message("&HPlugin: &TDisableCmdMode");
-            p.Message("&HDisables &T/Mode &Hand all &T/<block> &Hcommands&H, such as");
-            p.Message("&T/Stone&H, &T/Water&H, etc.");
+        public override void Help(Player player) {
+            player.Message("&HPlugin: &TDisableCmdMode");
+            player.Message("&HDisables &T/Mode &Hand all &T/<block> &Hcommands&H, such as");
+            player.Message("&T/Stone&H, &T/Water&H, etc.");
         }
 
-        public void HandlePlayerCommand(Player p, string commandName, string args, CommandData data) {
+        public void HandlePlayerCommand(Player player, string commandName, string args, CommandData data) {
             Command command = Command.Find(commandName);
 
             if (command != null) {
                 return;
             }
 
-            if (Block.Parse(p, commandName) != Block.Invalid) {
-                p.cancelcommand = true;
-                p.Message("Placing blocks with &T/Mode &Sis disabled.");
+            if (Block.Parse(player, commandName) != Block.Invalid) {
+                player.cancelcommand = true;
+                player.Message("Placing blocks with &T/Mode &Sis disabled.");
             }
         }
     }

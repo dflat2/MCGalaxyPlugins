@@ -18,9 +18,15 @@ When restarting your server, the plugin will be loaded automatically.
 
 == Plugins
 
+=== BlockDBClean
+
+Download link: link:https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/main/BlockDBClean/BlockDBClean.cs[BlockDBClean.cs]
+
+Adds two commands `/BlockDBClean <map> <duration>` and `/BlockDBCleanAll <duration>` that removes all `/About` information older than given `duration`. Please note that `/BlockDBCleanAll` make take some time as it loads all levels one by one.
+
 === DotStatus
 
-Download link: link:https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/main/DotStatus/DotStatus.cslink:[DotStatus.cs]
+Download link: link:https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/main/DotStatus/DotStatus.cs[DotStatus.cs]
 
 Displays zombie survival status when a player sends a message with a single `.` or a single `t`. To use it with lava survival instead, change the corresponding line in the plugin.
 

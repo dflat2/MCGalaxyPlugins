@@ -2,43 +2,37 @@
 using MCGalaxy;
 using MCGalaxy.Maths;
 
-public class CmdLoadMarks : Command
-{
-    public override string name => "loadmarks";
-    public override string shortcut => "lm";
-    public override string type => "building";
+public class CmdLoadMarks : Command {
+    public override string name { get { return "LoadMarks"; } }
+    public override string shortcut { get { return "LM"; } }
+    public override string type { get { return "building"; } }
 
-    public override bool museumUsable => false;
-    public override bool SuperUseable => false;
+    public override bool museumUsable { get { return false; } }
+    public override bool SuperUseable { get { return false; } }
 
-    public override void Help(Player p)
-    {
-        p.Message("&T/loadmarks");
-        p.Message("&HMarks what's been saved with &T/savemarks");
-        p.Message("&HSee also: &T/savemarks");
+    public override void Help(Player player) {
+        player.Message("&T/LoadMarks");
+        player.Message("&HMarks what's been saved with &T/SaveMarks&S.");
+        player.Message("&HSee also: &T/savemarks&S.");
     }
 
-    public override void Use(Player p, string message)
-    {
-        if (message.Length != 0)
-        {
-            p.Message("&HUsage: &T/loadmarks");
+    public override void Use(Player player, string message) {
+        if (message.Length != 0) {
+            player.Message("&HUsage: &T/loadmarks");
             return;
         }
 
-        Vec3S32[] marks = SavedMarks.Get(p);
+        Vec3S32[] marks = SavedMarks.Get(player);
 
-        if (marks.Length == 0)
-        {
-            p.Message("&HYou did not save any marks yet. Run &T/savemarks &Hfirst.");
+        if (marks.Length == 0) {
+            player.Message("&HYou did not save any marks yet. Run &T/SaveMarks &Hfirst.");
             return;
         }
 
         Command cmdMark = Command.Find("mark");
 
-        foreach (Vec3S32 mark in marks)
-        {
-            cmdMark.Use(p, mark.ToStringNoComma());
+        foreach (Vec3S32 mark in marks) {
+            cmdMark.Use(player, mark.ToStringNoComma());
         }
     }
 }

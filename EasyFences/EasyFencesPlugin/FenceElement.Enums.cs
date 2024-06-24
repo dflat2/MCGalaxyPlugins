@@ -1,7 +1,6 @@
 ﻿namespace PluginEasyFences;
 
-internal enum ElementType
-{
+public enum ElementType {
     Post,
     Corner,
     Barrier,
@@ -9,14 +8,12 @@ internal enum ElementType
     AntiJumpOverCorner
 }
 
-internal enum ElementDirection
-{
+public enum ElementDirection {
     X,
     Z
 }
 
-internal enum ElementPosition
-{
+public enum ElementPosition {
     // For barriers
     Top,
     Bottom,

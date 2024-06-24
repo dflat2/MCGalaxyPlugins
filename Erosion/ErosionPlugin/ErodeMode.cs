@@ -1,7 +1,5 @@
 ﻿namespace PluginErosion;
-
-public enum ErodeMode
-{
+public enum ErodeMode {
     Normal,
     Natural,
     X_2D,

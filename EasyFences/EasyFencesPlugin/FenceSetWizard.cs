@@ -2,11 +2,9 @@
 using System;
 using System.Collections.Generic;
 using MCGalaxy;
-using MCGalaxy.DB;
 using BlockID = System.UInt16;
 
-internal partial class FenceSetWizard
-{
+public partial class FenceSetWizard {
     private FenceSetProps SetProps;
 
     private delegate bool Step(string input);
@@ -23,8 +21,7 @@ internal partial class FenceSetWizard
 
     private bool IsEnd => currentStepIndex == steps.Count;
 
-    internal FenceSetWizard(Player p)
-    {
+    public FenceSetWizard(Player p) {
         SetProps = new FenceSetProps();
         player = p;
         currentStepIndex = 0;
@@ -34,30 +31,25 @@ internal partial class FenceSetWizard
         CurrentInstructions();
     }
 
-    private void CurrentInstructions()
-    {
+    private void CurrentInstructions() {
         string[] currentInstructions = instructions[currentStepIndex];
 
-        for (int i = 0; i < currentInstructions.Length; i++)
-        {
+        for (int i = 0; i < currentInstructions.Length; i++) {
             player.Message(currentInstructions[i]);
         }
 
         player.Message(dashes);
     }
 
-    private void WizardWelcome()
-    {
+    private void WizardWelcome() {
         player.Message(startMsg);
         player.Message(abortMsg);
         player.Message(promptInputMsg);
         player.Message(dashes);
     }
 
-    private void MakeSteps()
-    {
-        steps = new List<Step>()
-        {
+    private void MakeSteps() {
+        steps = new List<Step>() {
             StepSourceID,
             StepDoBury,
             StepTIntersect,
@@ -66,8 +58,7 @@ internal partial class FenceSetWizard
             StepDestID
         };
 
-        instructions = new List<string[]>()
-        {
+        instructions = new List<string[]>() {
             instructionsSourceID,
             instructionsDoBury,
             instructionsTIntersect,
@@ -77,8 +68,7 @@ internal partial class FenceSetWizard
         };
     }
 
-    internal bool ManageInput(string input)
-    {
+    public bool ManageInput(string input) {
         Step CurrentStep = steps[currentStepIndex];
 
         if (CurrentStep(input))
@@ -88,8 +78,7 @@ internal partial class FenceSetWizard
         return IsEnd;
     }
 
-    internal List<FenceElement> BuildFenceElements()
-    {
+    public List<FenceElement> BuildFenceElements() {
         List <FenceElement> fenceElements = new List<FenceElement>();
 
         AddPostElement(fenceElements);
@@ -100,8 +89,7 @@ internal partial class FenceSetWizard
         return fenceElements;
     }
 
-    private void AddPostElement(List<FenceElement> fenceElements)
-    {
+    private void AddPostElement(List<FenceElement> fenceElements) {
         fenceElements.Add(
             new FenceElement(
                 type: ElementType.Post,
@@ -111,14 +99,11 @@ internal partial class FenceSetWizard
         );
     }
 
-    private void AddCornerElements(List<FenceElement> fenceElements)
-    {
+    private void AddCornerElements(List<FenceElement> fenceElements) {
         int offset;
 
-        foreach (ElementPosition position in Enum.GetValues(typeof(ElementPosition)))
-        {
-            foreach (ElementDirection direction in Enum.GetValues(typeof(ElementDirection)))
-            {
+        foreach (ElementPosition position in Enum.GetValues(typeof(ElementPosition))) {
+            foreach (ElementDirection direction in Enum.GetValues(typeof(ElementDirection))) {
                 if (position == ElementPosition.Top || position == ElementPosition.Bottom) continue;
                 offset = GetDefaultOffset(ElementType.Corner, position, direction);
 
@@ -133,8 +118,7 @@ internal partial class FenceSetWizard
                     )
                 );
 
-                if (SetProps.TIntersect && direction == ElementDirection.X)
-                {
+                if (SetProps.TIntersect && direction == ElementDirection.X) {
                     fenceElements.Add(
                         new FenceElement(
                             type: ElementType.Corner,
@@ -150,16 +134,12 @@ internal partial class FenceSetWizard
         }
     }
 
-    private int GetDefaultOffset(ElementType type, ElementPosition position, ElementDirection direction)
-    {
-        switch (type)
-        {
+    private int GetDefaultOffset(ElementType type, ElementPosition position, ElementDirection direction) {
+        switch (type) {
             case ElementType.Corner:
-                switch (direction)
-                {
+                switch (direction) {
                     case ElementDirection.X:
-                        switch (position)
-                        {
+                        switch (position) {
                             case ElementPosition.BottomLeft:
                             case ElementPosition.BottomRight:
                                 return 1;
@@ -170,8 +150,7 @@ internal partial class FenceSetWizard
                                 return 0;
                         }
                     case ElementDirection.Z:
-                        switch (position)
-                        {
+                        switch (position) {
                             case ElementPosition.BottomLeft:
                             case ElementPosition.BottomRight:
                                 return 3;
@@ -185,8 +164,7 @@ internal partial class FenceSetWizard
                         return 0; ;
                 }
             case ElementType.Barrier:
-                switch (position)
-                {
+                switch (position) {
                     case ElementPosition.Bottom:
                         return 1;
                     case ElementPosition.Top:
@@ -199,23 +177,24 @@ internal partial class FenceSetWizard
         }
     }
 
-    private int AdaptOffset(int offset)
-    {
-        if      (SetProps.DoBury)       return -(offset + 1);
-        else if (!SetProps.CanJumpOver) return offset + 1;
+    private int AdaptOffset(int offset) {
+        if (SetProps.DoBury) {
+            return -(offset + 1);
+        } else if (!SetProps.CanJumpOver) {
+            return offset + 1;
+        }
+
         return offset;
     }
 
-    private void AddBarrierElements(List<FenceElement> fenceElements)
-    {
+    private void AddBarrierElements(List<FenceElement> fenceElements) {
         int offset;
 
-        foreach (ElementDirection direction in Enum.GetValues(typeof(ElementDirection)))
-        {
-            foreach (ElementPosition position in Enum.GetValues(typeof(ElementPosition)))
-            {
-                if (position == ElementPosition.BottomLeft || position == ElementPosition.BottomRight ||
-                    position == ElementPosition.TopLeft || position == ElementPosition.TopRight) continue;
+        foreach (ElementDirection direction in Enum.GetValues(typeof(ElementDirection))) {
+            foreach (ElementPosition position in Enum.GetValues(typeof(ElementPosition))) {
+                if (position == ElementPosition.BottomLeft || position == ElementPosition.BottomRight || position == ElementPosition.TopLeft || position == ElementPosition.TopRight) {
+                    continue;
+                }
 
                 offset = GetDefaultOffset(ElementType.Barrier, position, direction);
 
@@ -230,8 +209,7 @@ internal partial class FenceSetWizard
                     )
                 );
 
-                if (SetProps.CrossIntersect && direction == ElementDirection.X)
-                {
+                if (SetProps.CrossIntersect && direction == ElementDirection.X) {
                     fenceElements.Add(
                         new FenceElement(
                             type: ElementType.Barrier,
@@ -247,8 +225,7 @@ internal partial class FenceSetWizard
         }
     }
 
-    private void AddAntiJumpElements(List<FenceElement> fenceElements)
-    {
+    private void AddAntiJumpElements(List<FenceElement> fenceElements) {
         fenceElements.Add(
             new FenceElement(
                 type: ElementType.AntiJumpOver,
@@ -276,8 +253,7 @@ internal partial class FenceSetWizard
         );
     }
 
-    internal bool IsRangeFree(BlockID rawBlockMin, BlockID rawBlockMax, Level level)
-    {
+    public bool IsRangeFree(BlockID rawBlockMin, BlockID rawBlockMax, Level level) {
         BlockDefinition[] defs = level.CustomBlockDefs;
         BlockID blockMin = Block.FromRaw(rawBlockMin);
         BlockID blockMax = Block.FromRaw(rawBlockMax);

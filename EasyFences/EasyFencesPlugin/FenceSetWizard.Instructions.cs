@@ -1,6 +1,6 @@
 ﻿namespace PluginEasyFences;
 
-internal partial class FenceSetWizard
+public partial class FenceSetWizard
 {
     private string[] instructionsCanJumpOver =
     { "Can the player jump over the fences? [yes/no]" };

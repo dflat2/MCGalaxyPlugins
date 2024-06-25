@@ -1,9 +1,9 @@
 using MCGalaxy.Maths;
-using MCGalaxy.DB;
-using MCGalaxy;
 using System;
+using MCGalaxy;
 using MCGalaxy.Commands;
 using System.IO;
+using MCGalaxy.DB;
 
 namespace BlockDBCleanPlugin
 {

@@ -1,15 +1,14 @@
+using MCGalaxy.Blocks;
+using MCGalaxy.Commands;
 using System.Collections.Generic;
 using MCGalaxy;
-using MCGalaxy.Blocks;
-using System;
-using MCGalaxy.Commands;
-using BlockID = System.UInt16;
-using MCGalaxy.DB;
 using MCGalaxy.Maths;
+using BlockID = System.UInt16;
+using System;
 
 namespace EasyFencesPlugin
 {
-    internal partial class FenceSetWizard
+    public partial class FenceSetWizard
     {
         private string[] instructionsCanJumpOver =
         { "Can the player jump over the fences? [yes/no]" };
@@ -34,8 +33,7 @@ namespace EasyFencesPlugin
     }
 
 
-    internal class FenceElement
-    {
+    public class FenceElement {
         private int offset = 0;
         private ElementDirection direction = ElementDirection.X;
         private ElementPosition position = ElementPosition.Top;
@@ -44,9 +42,7 @@ namespace EasyFencesPlugin
 
         public BlockID copiedFrom;
 
-        internal FenceElement(ElementType type, BlockID copiedFrom, BlockID copiedTo,
-                              ElementDirection direction, ElementPosition position, int offset)
-        {
+        internal FenceElement(ElementType type, BlockID copiedFrom, BlockID copiedTo, ElementDirection direction, ElementPosition position, int offset) {
             this.type = type;
             this.copiedFrom = copiedFrom;
             this.copiedTo = copiedTo;
@@ -55,28 +51,22 @@ namespace EasyFencesPlugin
             this.offset = offset;
         }
 
-        internal FenceElement(ElementType type, BlockID copiedFrom, BlockID copiedTo,
-                          ElementDirection direction)
-        {
+        internal FenceElement(ElementType type, BlockID copiedFrom, BlockID copiedTo, ElementDirection direction) {
             this.type = type;
             this.copiedFrom = copiedFrom;
             this.copiedTo = copiedTo;
             this.direction = direction;
         }
 
-        internal FenceElement(ElementType type, BlockID copiedFrom, BlockID copiedTo)
-        {
+        internal FenceElement(ElementType type, BlockID copiedFrom, BlockID copiedTo) {
             this.type = type;
             this.copiedFrom = copiedFrom;
             this.copiedTo = copiedTo;
         }
 
-        private AABB Aabb
-        {
-            get
-            {
-                switch (type)
-                {
+        private AABB Aabb {
+            get {
+                switch (type) {
                     case ElementType.Barrier:
                         return ApplyOffset(FenceElementsAABBs.Barrier(direction, position));
                     case ElementType.Post:
@@ -92,19 +82,16 @@ namespace EasyFencesPlugin
             }
         }
 
-        private AABB ApplyOffset(AABB aabb)
-        {
+        private AABB ApplyOffset(AABB aabb) {
             int offsetUnits = 16 * offset;
             return aabb.Offset(0, -offsetUnits, 0);
         }
 
-        public override string ToString()
-        {
+        public override string ToString() {
             string direction = this.direction.ToString();
             string position = this.position.ToString();
 
-            switch (type)
-            {
+            switch (type) {
                 case ElementType.Post:
                     return "Fence post";
                 case ElementType.AntiJumpOver:
@@ -115,12 +102,11 @@ namespace EasyFencesPlugin
                 case ElementType.Corner:
                     return $"Fence {direction} {position} Offset {offset}";
                 default:
-                    return "";
+                    return string.Empty;
             }
         }
 
-        internal List<string> RawCommands(Player player, int count, string prefix)
-        {
+        internal List<string> RawCommands(Player player, int count, string prefix) {
             int targetID = copiedTo + count;
             List<string> commands = new List<string>();
             commands.Add($"{prefix}copy {copiedFrom} {targetID}");
@@ -135,33 +121,31 @@ namespace EasyFencesPlugin
             if (type == ElementType.AntiJumpOver || type == ElementType.AntiJumpOverCorner)
                 commands.Add($"{prefix}edit {targetID} blockdraw 4");
 
-            if (offset != 0)
-            {
+            if (offset != 0) {
                 BlockDefinition def = CopiedFromBD(player);
                 int sideTexID = def.FrontTex;
 
                 // Known issue: things will go wrong when wrapping if current texture pack has 512 textures
-                if (sideTexID - offset >= 0)
+                if (sideTexID - offset >= 0) {
                     commands.Add($"{prefix}edit {targetID} sidetex {(sideTexID - offset) % 256}");
-                else
+                } else {
                     commands.Add($"{prefix}edit {targetID} sidetex {(sideTexID - offset) % 256 + 256}");
+                }
             }
 
             commands.Add($"{prefix}edit {targetID} name {this.ToString()}");
-
             return commands;
         }
 
-        private BlockDefinition CopiedFromBD(Player p)
-        {
-            Level lvl = p.Level;
+        private BlockDefinition CopiedFromBD(Player player) {
+            Level level = player.Level;
             BlockID serverBlockID = Block.FromRaw(copiedFrom);
 
-            bool levelBlockExists = (lvl.CustomBlockDefs[Block.FromRaw(copiedFrom)] != null);
+            bool levelBlockExists = (level.CustomBlockDefs[Block.FromRaw(copiedFrom)] != null);
             bool globalBlockExists = (BlockDefinition.GlobalDefs[Block.FromRaw(copiedFrom)] != null);
 
             if (levelBlockExists)
-                return lvl.CustomBlockDefs[serverBlockID];
+                return level.CustomBlockDefs[serverBlockID];
             else if (globalBlockExists)
                 return BlockDefinition.GlobalDefs[serverBlockID];
             else
@@ -173,68 +157,59 @@ namespace EasyFencesPlugin
 
     public class CmdEasyFences : Command2
     {
-        public override string name => "EasyFences";
-        public override string type => "Building";
-        public override string shortcut => "ezf";
-        public override bool SuperUseable => false;
+        public override string name { get { return "EasyFences"; } }
+        public override string type { get { return CommandTypes.Building; } }
+        public override string shortcut { get { return "EZF"; } }
+        public override bool SuperUseable { get { return false; } }
 
-        private string usage = "&T/easyfences";
-
-        public override void Help(Player p)
+        public override void Help(Player player)
         {
-            p.Message(usage);
-            p.Message("&HRun the Minecraft-fences creation process.");
+            player.Message("&T/EasyFences");
+            player.Message("&HRun the Minecraft-fences creation process.");
         }
 
-        public override void Use(Player p, string message)
+        public override void Use(Player player, string message)
         {
-            bool hasWizard = p.Extras.Contains("FenceSetWizard");
+            bool hasWizard = player.Extras.Contains("FenceSetWizard");
             FenceSetWizard wizard;
 
-            if (!hasWizard)
-            {
-                wizard = new FenceSetWizard(p);
-                p.Extras["FenceSetWizard"] = wizard;
+            if (!hasWizard) {
+                wizard = new FenceSetWizard(player);
+                player.Extras["FenceSetWizard"] = wizard;
                 return;
             }
 
-            wizard = (FenceSetWizard)p.Extras["FenceSetWizard"];
+            wizard = (FenceSetWizard)player.Extras["FenceSetWizard"];
             string wizardInput = message.SplitSpaces()[0];
 
-            if (wizardInput.ToLower() == "abort" || wizardInput.ToLower() == "cancel")
-            {
-                p.Extras.Remove("FenceSetWizard");
-                p.Message("&SAborted the fence creation process.");
+            if (wizardInput.ToLower() == "abort" || wizardInput.ToLower() == "cancel") {
+                player.Extras.Remove("FenceSetWizard");
+                player.Message("&SAborted the fence creation process.");
                 return;
             }
 
             bool wizardEnd = wizard.ManageInput(wizardInput);
 
-            if (wizardEnd)
-            {
+            if (wizardEnd) {
                 List<FenceElement> elements = wizard.BuildFenceElements();
-                AddFencesElements(p, elements);
-                p.Extras.Remove("FenceSetWizard");
+                AddFencesElements(player, elements);
+                player.Extras.Remove("FenceSetWizard");
             }
         }
 
-        private void AddFencesElements(Player p, List<FenceElement> elements)
-        {
+        private void AddFencesElements(Player p, List<FenceElement> elements) {
             Command cmdLevelBlock = Command.Find("levelblock");
             Command cmdOverseer = Command.Find("overseer");
 
             Command lbCmd = cmdLevelBlock;
             string prefix = "";
 
-            if (!p.CanUse(cmdLevelBlock))
-            {
-                if (LevelInfo.IsRealmOwner(p.Level, p.name))
-                {
+            if (!p.CanUse(cmdLevelBlock)) {
+                if (LevelInfo.IsRealmOwner(p.Level, p.name)) {
                     lbCmd = cmdOverseer;
                     prefix = "lb ";
                 }
-                else
-                {
+                else {
                     p.Message("&WYou do not have the permissions to edit level blocks on this map.");
                     return;
                 }
@@ -242,12 +217,10 @@ namespace EasyFencesPlugin
 
             List<string> rawCommands;
 
-            for (int i = 0; i < elements.Count; i++)
-            {
+            for (int i = 0; i < elements.Count; i++) {
                 rawCommands = elements[i].RawCommands(player: p, count: i, prefix: prefix);
 
-                foreach (string command in rawCommands)
-                {
+                foreach (string command in rawCommands) {
                     lbCmd.Use(p, command);
                 }
             }
@@ -255,8 +228,7 @@ namespace EasyFencesPlugin
     }
 
 
-    internal enum ElementType
-    {
+    public enum ElementType {
         Post,
         Corner,
         Barrier,
@@ -264,14 +236,12 @@ namespace EasyFencesPlugin
         AntiJumpOverCorner
     }
 
-    internal enum ElementDirection
-    {
+    public enum ElementDirection {
         X,
         Z
     }
 
-    internal enum ElementPosition
-    {
+    public enum ElementPosition {
         // For barriers
         Top,
         Bottom,
@@ -281,8 +251,7 @@ namespace EasyFencesPlugin
         BottomRight,
         BottomLeft
     }
-    internal static class FenceElementsAABBs
-    {
+    public static class FenceElementsAABBs {
         private const int BOTTOM_BARRIER_MIN_Y = 6;
         private const int BOTTOM_BARRIER_MAX_Y = 9;
         private const int TOP_BARRIER_MIN_Y = 12;
@@ -290,18 +259,14 @@ namespace EasyFencesPlugin
 
         private static AABB DEFAULT_AABB = new AABB(0, 0, 0, 16, 16, 16);
 
-        internal static AABB Post()
-        {
+        public static AABB Post() {
             return new AABB(6, 0, 6, 10, 16, 10);
         }
 
-        internal static AABB Corner(ElementDirection direction, ElementPosition position)
-        {
-            switch (direction)
-            {
+        public static AABB Corner(ElementDirection direction, ElementPosition position) {
+            switch (direction) {
                 case (ElementDirection.X):
-                    switch (position)
-                    {
+                    switch (position) {
                         case (ElementPosition.BottomLeft):
                             return new AABB(0, BOTTOM_BARRIER_MIN_Y, 7, 6, BOTTOM_BARRIER_MAX_Y, 9);
                         case (ElementPosition.BottomRight):
@@ -314,8 +279,7 @@ namespace EasyFencesPlugin
                             return DEFAULT_AABB;
                     }
                 case (ElementDirection.Z):
-                    switch (position)
-                    {
+                    switch (position) {
                         case (ElementPosition.BottomRight):
                             return new AABB(7, BOTTOM_BARRIER_MIN_Y, 0, 9, BOTTOM_BARRIER_MAX_Y, 6);
                         case (ElementPosition.BottomLeft):
@@ -332,13 +296,10 @@ namespace EasyFencesPlugin
             }
         }
 
-        internal static AABB Barrier(ElementDirection direction, ElementPosition position)
-        {
-            switch (direction)
-            {
+        public static AABB Barrier(ElementDirection direction, ElementPosition position) {
+            switch (direction) {
                 case (ElementDirection.X):
-                    switch (position)
-                    {
+                    switch (position) {
                         case (ElementPosition.Bottom):
                             return new AABB(0, BOTTOM_BARRIER_MIN_Y, 7, 16, BOTTOM_BARRIER_MAX_Y, 9);
                         case (ElementPosition.Top):
@@ -347,8 +308,7 @@ namespace EasyFencesPlugin
                             return DEFAULT_AABB;
                     }
                 case (ElementDirection.Z):
-                    switch (position)
-                    {
+                    switch (position) {
                         case (ElementPosition.Bottom):
                             return new AABB(7, BOTTOM_BARRIER_MIN_Y, 0, 9, BOTTOM_BARRIER_MAX_Y, 16);
                         case (ElementPosition.Top):
@@ -361,10 +321,8 @@ namespace EasyFencesPlugin
             }
         }
 
-        internal static AABB AntiJumpOver(ElementDirection direction)
-        {
-            switch (direction)
-            {
+        public static AABB AntiJumpOver(ElementDirection direction) {
+            switch (direction) {
                 case (ElementDirection.X):
                     return new AABB(0, 0, 6, 16, 16, 10);
                 case (ElementDirection.Z):
@@ -375,63 +333,52 @@ namespace EasyFencesPlugin
         }
     }
 
-    internal partial class FenceSetWizard
-    {
-        private bool StepSourceID(string input)
-        {
+    public partial class FenceSetWizard {
+        private bool StepSourceID(string input) {
             int result = 0;
             bool success = CommandParser.GetInt(player, input, "block-id", ref result, 1, 1024);
             SetProps.CopiedFrom = (ushort) result;
             return success;
         }
 
-        private bool StepCanJumpOver(string input)
-        {
+        private bool StepCanJumpOver(string input) {
             bool result = false;
             bool success = CommandParser.GetBool(player, input, ref result);
             SetProps.CanJumpOver = result;
             return success;
         }
 
-        private bool StepDoBury(string input)
-        {
+        private bool StepDoBury(string input) {
             bool result = false;
             bool success = CommandParser.GetBool(player, input, ref result);
             SetProps.DoBury = result;
             return success;
         }
 
-        private bool StepCrossIntersect(string input)
-        {
+        private bool StepCrossIntersect(string input) {
             bool result = false;
             bool success = CommandParser.GetBool(player, input, ref result);
             SetProps.CrossIntersect = result;
             return success;
         }
 
-        private bool StepTIntersect(string input)
-        {
+        private bool StepTIntersect(string input) {
             bool result = false;
             bool success = CommandParser.GetBool(player, input, ref result);
             SetProps.TIntersect = result;
             return success;
         }
 
-        private bool StepDestID(string input)
-        {
+        private bool StepDestID(string input) {
             int result = 0;
             bool success = CommandParser.GetInt(player, input, "block-id", ref result, 0, Block.MaxRaw - SetProps.BlocksCount);
 
-            if (success)
-            {
-                if (!IsRangeFree((ushort) result, (ushort)(result + SetProps.BlocksCount - 1), player.Level))
-                {
+            if (success) {
+                if (!IsRangeFree((ushort) result, (ushort)(result + SetProps.BlocksCount - 1), player.Level)) {
                     player.Message($"&WThe {result}-{result + SetProps.BlocksCount - 1} range already have level blocks.");
                     player.Message($"&WPlease remove them or choose another range.");
                     success = false;
-                }
-                else
-                {
+                } else {
                     SetProps.CopiedTo = (ushort)result;
                 }
             }
@@ -440,11 +387,8 @@ namespace EasyFencesPlugin
         }
     }
 
-
-    internal static class EasyFencesUtils
-    {
-        internal static string ToStringNoComma(this Vec3S32 vector)
-        {
+    public static class EasyFencesUtils {
+        public static string ToStringNoComma(this Vec3S32 vector) {
             return $"{vector.X} {vector.Y} {vector.Z}";
         }
     }
@@ -478,18 +422,15 @@ namespace EasyFencesPlugin
         public override string name => "EasyFencesPlugin";
         public override string MCGalaxy_Version => "1.9.4.9";
 
-        public override void Load(bool auto)
-        {
+        public override void Load(bool auto) {
             Command.Register(new CmdEasyFences());
         }
 
-        public override void Unload(bool auto)
-        {
+        public override void Unload(bool auto) {
             Command.Unregister(Command.Find("easyfences"));
         }
     }
-    internal partial class FenceSetWizard
-    {
+    public partial class FenceSetWizard {
         private FenceSetProps SetProps;
 
         private delegate bool Step(string input);
@@ -506,8 +447,7 @@ namespace EasyFencesPlugin
 
         private bool IsEnd => currentStepIndex == steps.Count;
 
-        internal FenceSetWizard(Player p)
-        {
+        public FenceSetWizard(Player p) {
             SetProps = new FenceSetProps();
             player = p;
             currentStepIndex = 0;
@@ -517,30 +457,25 @@ namespace EasyFencesPlugin
             CurrentInstructions();
         }
 
-        private void CurrentInstructions()
-        {
+        private void CurrentInstructions() {
             string[] currentInstructions = instructions[currentStepIndex];
 
-            for (int i = 0; i < currentInstructions.Length; i++)
-            {
+            for (int i = 0; i < currentInstructions.Length; i++) {
                 player.Message(currentInstructions[i]);
             }
 
             player.Message(dashes);
         }
 
-        private void WizardWelcome()
-        {
+        private void WizardWelcome() {
             player.Message(startMsg);
             player.Message(abortMsg);
             player.Message(promptInputMsg);
             player.Message(dashes);
         }
 
-        private void MakeSteps()
-        {
-            steps = new List<Step>()
-            {
+        private void MakeSteps() {
+            steps = new List<Step>() {
                 StepSourceID,
                 StepDoBury,
                 StepTIntersect,
@@ -549,8 +484,7 @@ namespace EasyFencesPlugin
                 StepDestID
             };
 
-            instructions = new List<string[]>()
-            {
+            instructions = new List<string[]>() {
                 instructionsSourceID,
                 instructionsDoBury,
                 instructionsTIntersect,
@@ -560,8 +494,7 @@ namespace EasyFencesPlugin
             };
         }
 
-        internal bool ManageInput(string input)
-        {
+        public bool ManageInput(string input) {
             Step CurrentStep = steps[currentStepIndex];
 
             if (CurrentStep(input))
@@ -571,8 +504,7 @@ namespace EasyFencesPlugin
             return IsEnd;
         }
 
-        internal List<FenceElement> BuildFenceElements()
-        {
+        public List<FenceElement> BuildFenceElements() {
             List <FenceElement> fenceElements = new List<FenceElement>();
 
             AddPostElement(fenceElements);
@@ -583,8 +515,7 @@ namespace EasyFencesPlugin
             return fenceElements;
         }
 
-        private void AddPostElement(List<FenceElement> fenceElements)
-        {
+        private void AddPostElement(List<FenceElement> fenceElements) {
             fenceElements.Add(
                 new FenceElement(
                     type: ElementType.Post,
@@ -594,14 +525,11 @@ namespace EasyFencesPlugin
             );
         }
 
-        private void AddCornerElements(List<FenceElement> fenceElements)
-        {
+        private void AddCornerElements(List<FenceElement> fenceElements) {
             int offset;
 
-            foreach (ElementPosition position in Enum.GetValues(typeof(ElementPosition)))
-            {
-                foreach (ElementDirection direction in Enum.GetValues(typeof(ElementDirection)))
-                {
+            foreach (ElementPosition position in Enum.GetValues(typeof(ElementPosition))) {
+                foreach (ElementDirection direction in Enum.GetValues(typeof(ElementDirection))) {
                     if (position == ElementPosition.Top || position == ElementPosition.Bottom) continue;
                     offset = GetDefaultOffset(ElementType.Corner, position, direction);
 
@@ -616,8 +544,7 @@ namespace EasyFencesPlugin
                         )
                     );
 
-                    if (SetProps.TIntersect && direction == ElementDirection.X)
-                    {
+                    if (SetProps.TIntersect && direction == ElementDirection.X) {
                         fenceElements.Add(
                             new FenceElement(
                                 type: ElementType.Corner,
@@ -633,16 +560,12 @@ namespace EasyFencesPlugin
             }
         }
 
-        private int GetDefaultOffset(ElementType type, ElementPosition position, ElementDirection direction)
-        {
-            switch (type)
-            {
+        private int GetDefaultOffset(ElementType type, ElementPosition position, ElementDirection direction) {
+            switch (type) {
                 case ElementType.Corner:
-                    switch (direction)
-                    {
+                    switch (direction) {
                         case ElementDirection.X:
-                            switch (position)
-                            {
+                            switch (position) {
                                 case ElementPosition.BottomLeft:
                                 case ElementPosition.BottomRight:
                                     return 1;
@@ -653,8 +576,7 @@ namespace EasyFencesPlugin
                                     return 0;
                             }
                         case ElementDirection.Z:
-                            switch (position)
-                            {
+                            switch (position) {
                                 case ElementPosition.BottomLeft:
                                 case ElementPosition.BottomRight:
                                     return 3;
@@ -668,8 +590,7 @@ namespace EasyFencesPlugin
                             return 0; ;
                     }
                 case ElementType.Barrier:
-                    switch (position)
-                    {
+                    switch (position) {
                         case ElementPosition.Bottom:
                             return 1;
                         case ElementPosition.Top:
@@ -682,23 +603,24 @@ namespace EasyFencesPlugin
             }
         }
 
-        private int AdaptOffset(int offset)
-        {
-            if      (SetProps.DoBury)       return -(offset + 1);
-            else if (!SetProps.CanJumpOver) return offset + 1;
+        private int AdaptOffset(int offset) {
+            if (SetProps.DoBury) {
+                return -(offset + 1);
+            } else if (!SetProps.CanJumpOver) {
+                return offset + 1;
+            }
+
             return offset;
         }
 
-        private void AddBarrierElements(List<FenceElement> fenceElements)
-        {
+        private void AddBarrierElements(List<FenceElement> fenceElements) {
             int offset;
 
-            foreach (ElementDirection direction in Enum.GetValues(typeof(ElementDirection)))
-            {
-                foreach (ElementPosition position in Enum.GetValues(typeof(ElementPosition)))
-                {
-                    if (position == ElementPosition.BottomLeft || position == ElementPosition.BottomRight ||
-                        position == ElementPosition.TopLeft || position == ElementPosition.TopRight) continue;
+            foreach (ElementDirection direction in Enum.GetValues(typeof(ElementDirection))) {
+                foreach (ElementPosition position in Enum.GetValues(typeof(ElementPosition))) {
+                    if (position == ElementPosition.BottomLeft || position == ElementPosition.BottomRight || position == ElementPosition.TopLeft || position == ElementPosition.TopRight) {
+                        continue;
+                    }
 
                     offset = GetDefaultOffset(ElementType.Barrier, position, direction);
 
@@ -713,8 +635,7 @@ namespace EasyFencesPlugin
                         )
                     );
 
-                    if (SetProps.CrossIntersect && direction == ElementDirection.X)
-                    {
+                    if (SetProps.CrossIntersect && direction == ElementDirection.X) {
                         fenceElements.Add(
                             new FenceElement(
                                 type: ElementType.Barrier,
@@ -730,8 +651,7 @@ namespace EasyFencesPlugin
             }
         }
 
-        private void AddAntiJumpElements(List<FenceElement> fenceElements)
-        {
+        private void AddAntiJumpElements(List<FenceElement> fenceElements) {
             fenceElements.Add(
                 new FenceElement(
                     type: ElementType.AntiJumpOver,
@@ -759,8 +679,7 @@ namespace EasyFencesPlugin
             );
         }
 
-        internal bool IsRangeFree(BlockID rawBlockMin, BlockID rawBlockMax, Level level)
-        {
+        public bool IsRangeFree(BlockID rawBlockMin, BlockID rawBlockMax, Level level) {
             BlockDefinition[] defs = level.CustomBlockDefs;
             BlockID blockMin = Block.FromRaw(rawBlockMin);
             BlockID blockMax = Block.FromRaw(rawBlockMax);

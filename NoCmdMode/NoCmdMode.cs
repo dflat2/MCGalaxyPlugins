@@ -1,5 +1,5 @@
-using MCGalaxy;
 using MCGalaxy.Events.PlayerEvents;
+using MCGalaxy;
 
 namespace NoCmdModePlugin
 {

@@ -64,12 +64,6 @@ Download link: link:https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/mai
 
 Automatically runs `/Report list` when an operator joins.
 
-=== CommandsUnloader
-
-Download link: link:https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/main/CommandsUnloader/CommandsUnloader.cs[CommandsUnloader.cs]
-
-Unloads all commands with permission 120.
-
 === InvincibleReferees
 
 Download link: link:https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/main/InvincibleReferees/InvincibleReferees.cs[InvincibleReferees.cs]

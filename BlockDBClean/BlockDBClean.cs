@@ -1,9 +1,9 @@
-using MCGalaxy.Maths;
-using System;
-using MCGalaxy;
-using MCGalaxy.Commands;
 using System.IO;
+using MCGalaxy.Commands;
+using MCGalaxy;
 using MCGalaxy.DB;
+using System;
+using MCGalaxy.Maths;
 
 namespace BlockDBCleanPlugin
 {
@@ -120,8 +120,7 @@ namespace BlockDBCleanPlugin
             player.Message(string.Format("Purged &T{0}&S.", FormatBytes(totalPurged)));
         }
     }
-    public sealed class BlockDBCleanPlugin : Plugin
-    {
+    public sealed class BlockDBCleanPlugin : Plugin {
         public override string name { get { return "BlockDBClean"; } }
         public override string creator { get { return "D_Flat"; } }
         public override string MCGalaxy_Version { get { return "1.9.4.9"; } }
@@ -136,26 +135,24 @@ namespace BlockDBCleanPlugin
             _cmdBlockDBCleanAll = new CmdBlockDBCleanAll(_blockDBCleaner);
         }
 
-        public override void Load(bool startup)
-        {
+        public override void Load(bool startup) {
             Command.Register(_cmdBlockDBClean);
             Command.Register(_cmdBlockDBCleanAll);
         }
 
-        public override void Unload(bool shutdown)
-        {
+        public override void Unload(bool shutdown) {
             Command.Unregister(_cmdBlockDBClean);
             Command.Unregister(_cmdBlockDBCleanAll);
         }
 
-        public override void Help(Player p)
-        {
-            // TODO
+        public override void Help(Player player) {
+            player.Message("&TBlockDBCleanPlugin");
+            player.Message("Adds &T/BlockDBClean &Hand &T/BlockDBCleanAll &Hto truncate BlockDBs on given maps.");
         }
     }
     public class CmdBlockDBClean : Command {
-        public override string name => "BlockDBClean";
-        public override string type => CommandTypes.World;
+        public override string name { get { return "BlockDBClean"; } }
+        public override string type { get { return CommandTypes.World; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }
 
         private readonly BlockDBCleaner _cleaner;

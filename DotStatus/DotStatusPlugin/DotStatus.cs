@@ -18,7 +18,7 @@ public class DotStatus : Plugin {
     }
 
     public override void Help(Player player) {
-        player.Message("&SDotStatus");
+        player.Message("&TDotStatus");
         player.Message("&HWhen a player sends &T'.' &Hor &T't'&H, cancels chat and displays game status.");
     }
 

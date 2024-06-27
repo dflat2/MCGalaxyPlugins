@@ -4,8 +4,8 @@ using MCGalaxy;
 using MCGalaxy.Commands;
 
 public class CmdBlockDBClean : Command {
-    public override string name => "BlockDBClean";
-    public override string type => CommandTypes.World;
+    public override string name { get { return "BlockDBClean"; } }
+    public override string type { get { return CommandTypes.World; } }
     public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }
 
     private readonly BlockDBCleaner _cleaner;

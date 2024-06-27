@@ -1,8 +1,7 @@
 using MCGalaxy;
 
 namespace PluginBlockDBClean;
-public sealed class BlockDBCleanPlugin : Plugin
-{
+public sealed class BlockDBCleanPlugin : Plugin {
     public override string name { get { return "BlockDBClean"; } }
     public override string creator { get { return "D_Flat"; } }
     public override string MCGalaxy_Version { get { return "1.9.4.9"; } }
@@ -17,20 +16,18 @@ public sealed class BlockDBCleanPlugin : Plugin
         _cmdBlockDBCleanAll = new CmdBlockDBCleanAll(_blockDBCleaner);
     }
 
-    public override void Load(bool startup)
-    {
+    public override void Load(bool startup) {
         Command.Register(_cmdBlockDBClean);
         Command.Register(_cmdBlockDBCleanAll);
     }
 
-    public override void Unload(bool shutdown)
-    {
+    public override void Unload(bool shutdown) {
         Command.Unregister(_cmdBlockDBClean);
         Command.Unregister(_cmdBlockDBCleanAll);
     }
 
-    public override void Help(Player p)
-    {
-        // TODO
+    public override void Help(Player player) {
+        player.Message("&TBlockDBCleanPlugin");
+        player.Message("Adds &T/BlockDBClean &Hand &T/BlockDBCleanAll &Hto truncate BlockDBs on given maps.");
     }
 }

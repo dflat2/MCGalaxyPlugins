@@ -9,6 +9,7 @@ namespace PluginSmooth;
 public class CmdSmooth : Command {
     public override string name { get { return "Smooth"; } }
     public override string type { get { return CommandTypes.Building; } }
+    public override LevelPermission defaultRank { get { return LevelPermission.AdvBuilder; } }
 
     private bool _TryParseArguments(Player player, string[] arguments, ref BlockID block, ref int radius, ref int intensity) {
         if (arguments.Length < 2 || arguments.Length > 3) {

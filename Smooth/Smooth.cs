@@ -1,17 +1,18 @@
-using MCGalaxy.Maths;
-using System;
-using MCGalaxy;
-using MCGalaxy.Drawing.Ops;
 using BlockID = System.UInt16;
+using MCGalaxy.Drawing.Ops;
+using MCGalaxy.Commands;
+using MCGalaxy;
+using MCGalaxy.Maths;
 using System.Collections.Generic;
 using MCGalaxy.Drawing.Brushes;
-using MCGalaxy.Commands;
+using System;
 
 namespace SmoothPlugin
 {
     public class CmdSmooth : Command {
         public override string name { get { return "Smooth"; } }
         public override string type { get { return CommandTypes.Building; } }
+        public override LevelPermission defaultRank { get { return LevelPermission.AdvBuilder; } }
 
         private bool _TryParseArguments(Player player, string[] arguments, ref BlockID block, ref int radius, ref int intensity) {
             if (arguments.Length < 2 || arguments.Length > 3) {

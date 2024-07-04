@@ -64,6 +64,12 @@ Download link: link:https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/mai
 
 Automatically runs `/Report list` when an operator joins.
 
+=== Smooth
+
+Download link: link:https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/main/Smooth/Smooth.cs[Smooth.cs]
+
+Adds a `/Smooth <block> <radius> [intensity]` command to smooth builds of `block`s.
+
 === InvincibleReferees
 
 Download link: link:https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/main/InvincibleReferees/InvincibleReferees.cs[InvincibleReferees.cs]

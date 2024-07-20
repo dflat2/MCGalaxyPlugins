@@ -68,7 +68,6 @@ Automatically runs `/Report list` when an operator joins.
 
 Download link: link:https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/main/Smooth/Smooth.cs[Smooth.cs]
 
-Adds a `/Smooth <block> <radius> [intensity]` command to smooth builds of `block`s.
 
 === InvincibleReferees
 
@@ -84,15 +83,21 @@ MCGalaxy provides an easy way to unload commands from the `server.properties` fi
 
 == Commands
 
+=== ConsoleDo
+
+Download link: link:https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/main/Commands/Commands/CmdConsoleDo.cs[CmdConsoleDo.cs]
+
+Runs a command as console while in-game.
+
 === LastModifiedLevels
 
 Download link: link:https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/main/Commands/Commands/CmdLastModifiedLevels.cs[CmdLastModifiedLevels.cs]
 
 Displays the last 10 modified levels. Note that it only takes blocks into account (ie. adding portals won't count as an update).
 
-=== ConsoleDo
+=== Smooth
 
-Download link: link:https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/main/Commands/Commands/CmdConsoleDo.cs[CmdConsoleDo.cs]
+Download link: link:https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/main/Commands/Commands/CmdSmooth.cs[CmdSmooth.cs]
 
-Runs a command as console while in-game.
+A `/Smooth <block> <radius> [intensity]` command to smooth builds of `block`s.
 

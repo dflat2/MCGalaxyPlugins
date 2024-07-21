@@ -36,12 +36,6 @@ Download link: link:https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/mai
 
 This plugin is inspired by erosion in binary image processing. It adds a new `/erode <mode> [block]` command that simulates erosion. It works by removing each `[block]` that is not surrounded by itself.
 
-=== MarksSaver
-
-Download link: link:https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/main/MarksSaver/MarksSaver.cs[MarksSaver.cs]
-
-This plugins adds two commands: `/savemarks` and `/loadmarks`. When building you often need to run long distances to `/mark` or to memorize coordinates. `/savemarks` lets you mark a region once and for all, and experiment multiple draw commands over this region by marking with `/loadmarks` (or its shorter version `/lm`). For instance, running `/z` then `/lm` would cuboid over the saved region.
-
 === EasyFences
 
 Download link: link:https://raw.githubusercontent.com/dflat2/MCGalaxyPlugins/main/EasyFences/EasyFences.cs[EasyFences.cs]
